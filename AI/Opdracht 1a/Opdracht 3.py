@@ -39,6 +39,8 @@ def lijstcheck(lst):
     else:
         return True
 
+
+"""
 lst = []
 number_of_1s = 13
 number_of_0s = 11
@@ -48,3 +50,4 @@ for i in range(number_of_0s):
     lst.append(0)
 
 print(lijstcheck(lst))
+"""
