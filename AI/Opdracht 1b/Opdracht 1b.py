@@ -53,7 +53,16 @@ def textterminal():
     possiblelist = generatecombinationslist(number_of_colors, length_of_guess)
     while answerguessed == False and number_of_tries > 0 and player == "shapiroAI":
         guess = shapiroAI(possiblelist)
-        generatepossiblecombinationslist(possiblelist, guess)
+        print("De computer gokt: " + str(guess))
+        feedback = checkAnswer(guess, secret_code)
+        if feedback["zwart"] == 4:
+            answerguessed = True
+            print("Correct! Computer heeft gewonnen")
+        else:
+            possiblelist = generatepossiblecombinationslist(possiblelist, guess, feedback)
+            number_of_tries -= 1
+        if number_of_tries == 0:
+            print("Computer heeft verloren!")
 
 
 def generaterandomcode(number_of_colors=6, length_of_guess=4):
@@ -76,8 +85,14 @@ def generatecombinationslist(number_of_colors=6, length_of_guess=4):
     return all_combinations
 
 
-def generatepossiblecombinationslist(list=None, all_guesses=None, feedback=None):
-    pass
+def generatepossiblecombinationslist(lst=None, guess=None, feedback=None):
+    """ Bekijkt of dezelfde feedback uit een mogelijke antwoord en gok komt. Returnt een lijst met mogelijke goede
+    antwoorden """
+    list_copy = []
+    for possibleanswer in lst:
+        if checkAnswer(guess, possibleanswer) == feedback:
+            list_copy.append(possibleanswer)
+    return list_copy
 
 
 def checkAnswer(guessedanswer, correctanswer):
