@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="793d061a-eb89-4fa4-b8f0-9448f083aef5" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JupyterTrust" id="21f8f7bb-cd02-44c8-b7e5-8194f4808dee" />
+  <component name="ProjectId" id="1o3ZT4WjSBtqkVIhnvSAld1dtLX" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
   <component name="RunManager">
     <configuration name="Opdracht 1b" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="myRepository" />
@@ -28,5 +48,45 @@
         <item itemvalue="Python.Opdracht 1b" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="793d061a-eb89-4fa4-b8f0-9448f083aef5" name="Default Changelist" comment="" />
+      <created>1612517238831</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1612517238831</updated>
+      <workItem from="1612517240036" duration="302000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1877" height="153" key="GridCell.Tab.0.bottom" timestamp="1612517526505">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1877" height="153" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1612517526505" />
+    <state width="1877" height="153" key="GridCell.Tab.0.center" timestamp="1612517526505">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1877" height="153" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1612517526505" />
+    <state width="1877" height="153" key="GridCell.Tab.0.left" timestamp="1612517526505">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1877" height="153" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1612517526505" />
+    <state width="1877" height="153" key="GridCell.Tab.0.right" timestamp="1612517526505">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1877" height="153" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1612517526505" />
+    <state x="1185" y="309" width="585" height="592" key="find.popup" timestamp="1612517332247">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="1185" y="309" width="585" height="592" key="find.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1612517332247" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/myRepository$Opdracht_1b.coverage" NAME="Opdracht 1b Coverage Results" MODIFIED="1612517526498" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Opdracht 1b" />
   </component>
 </project>
