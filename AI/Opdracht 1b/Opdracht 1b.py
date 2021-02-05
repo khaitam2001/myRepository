@@ -55,7 +55,7 @@ def textterminal():
         guess = shapiroAI(possiblelist)
         print("De computer gokt: " + str(guess))
         feedback = checkAnswer(guess, secret_code)
-        if feedback["zwart"] == 4:
+        if guess == secret_code:
             answerguessed = True
             print("Correct! Computer heeft gewonnen")
         else:
