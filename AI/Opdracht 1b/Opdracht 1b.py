@@ -12,6 +12,8 @@ def textterminal():
 
 
 def generaterandomcode(number_of_colors=None):
+    """ Genereer een lijst met input number_of_colors en de functie "generatecombinationslist".
+    Returnt een random nummer in de gemaakte lijst"""
     if number_of_colors == None:
         number_of_colors = generatecombinationslist(6)
     else:
