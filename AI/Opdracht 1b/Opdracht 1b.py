@@ -33,6 +33,8 @@ def textterminal():
     print("(dit hoort de speler niet te zien) De geheime code is: " + str(secret_code))
 
     answerguessed = False
+
+    """ Dit deel is gemaakt voor de speler. Dit stuk zorgt ervoor dat de speler het spel kan spelen"""
     while answerguessed == False and number_of_tries > 0 and player == "human":
         try:
             all_guesses = []
@@ -50,6 +52,7 @@ def textterminal():
             print("Je hebt nog " + str(number_of_tries) + " pogingen.")
             print(feedback)
 
+    """ Dit deel is gemaakt voor de shapiroAI. Het zorgt ervoor dat de functies die nodig zijn worden aangeroepen """
     possiblelist = generatecombinationslist(number_of_colors, length_of_guess)
     while answerguessed == False and number_of_tries > 0 and player == "shapiroAI":
         guess = shapiroAI(possiblelist)
