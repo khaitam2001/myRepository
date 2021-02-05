@@ -25,15 +25,17 @@ def textterminal():
     while answerguessed == False:
         try:
             all_guesses = []
-            for i in range(4):
+            for i in range(length_of_guess):
                 guess = input("Voer gok nummer " + str(i + 1) + " in: ")
                 all_guesses.append(guess)
         except ValueError:
             print("ValueError")
-        if checkAnswer(all_guesses, secret_code) == True:
+        feedback = checkAnswer(all_guesses, secret_code)
+        if feedback == True:
             answerguessed = True
+            print("Correct! Je hebt gewonnen")
         else:
-            print("Wrong answer")
+            print(feedback)
 
 def generaterandomcode(number_of_colors=6, length_of_guess=4):
     """ Genereer een lijst met input number_of_colors en de functie "generatecombinationslist".
@@ -65,9 +67,10 @@ def checkAnswer(guessedanswer, correctanswer):
             if guessedanswer[i] == correctanswer[i]:
                 my_dict["zwart"] += 1
             else:
-                for i in range(len(guessedanswer)):
-                    guessedanswer[i]
-                my_dict["wit"] += 1
+                for index in range(len(guessedanswer)):
+                    if guessedanswer[i] == correctanswer[index]:
+                      my_dict["wit"] += 1
+        return my_dict
 
 
 textterminal()
