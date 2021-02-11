@@ -10,17 +10,17 @@ def textterminal():
     """ Deze functie zorgt ervoor dat de gebruiker text kan zien dat een spelbord moet voorstellen. Je kunt ook het
     totaal aantal kleuren bepalen en hoeveel kleuren je moet gokken. """
 
-    player = input("Voer in de speler 'human' of 'shapiroAI' of 'worstcaseAI': ")
-    if player != 'human' and player != "shapiroAI" and player != "worstcaseAI":
+    player = input("Voer in de speler 'human' of 'shapiroAI' of 'worstcaseAI' of 'eenkleurAI': ")
+    if player != 'human' and player != "shapiroAI" and player != "worstcaseAI" and player != 'eenkleurAI':
         print("Verkeerde naam, standaard 'human' ingevoerd")
         player = "human"
-    # player = "onestepaheadAI"
     number_of_colors = 6
     length_of_guess = 4
     number_of_tries = 8
 
     secret_code = generaterandomcode(number_of_colors, length_of_guess)
     print("(dit hoort de speler niet te zien) De geheime code is: " + str(secret_code))
+    print("De mogelijke nummers dat je kan gokken zijn: " + str(string.ascii_lowercase[0:6]))
     time.sleep(1
                )
 
@@ -50,6 +50,9 @@ def textterminal():
 
     if player == "worstcaseAI":
         worstcaseAI(number_of_colors, length_of_guess, number_of_tries, secret_code)
+
+    if player == "eenkleurAI":
+        eenkleurAI(number_of_colors, length_of_guess, number_of_tries, secret_code)
 
 
 def generaterandomcode(number_of_colors=6, length_of_guess=4):
@@ -205,20 +208,40 @@ def worstcaseAI(number_of_colors, length_of_guess, number_of_tries, secret_code)
         if number_of_tries == 0:
             print("Computer heeft verloren!")
 
-        # if guess == secret_code:
-        #     answerguessed = True
-        #     print("Correct! Computer heeft gewonnen")
-        # elif number_of_tries == 0:
-        #     print("Computer heeft verloren!")
 
+def eenkleurAI(number_of_colors, length_of_guess, number_of_tries, secret_code):
+    """ Maakt keuzes gebaseerd op steeds het grootste getal kiezen dat mogelijk is. """
+    possiblelist = generatecombinationslist(number_of_colors)
+    answerguessed = False
+    index = length_of_guess
 
+    while answerguessed == False and number_of_tries > 0:
+        potentialanswers = []
+        allLetters = string.ascii_lowercase[0:6]
+        for answer in possiblelist:
+            answer_copy = answer.copy()
+            for letter in allLetters:
+                try:
+                    for i in range(index):
+                        answer_copy.remove(letter)
+                    potentialanswers.append(answer)
+                except ValueError:
+                    pass
+        if potentialanswers == []:
+            index -= 1
+        else:
+            guess = potentialanswers[randrange(0, len(potentialanswers))]
+            print("Computer gokt: " + str(guess))
+            if guess == secret_code:
+                print("Correct! Computer heeft gewonnen!")
+                answerguessed = True
+            feedback = checkAnswer(guess, secret_code)
+            possiblelist = generatepossiblecombinationslist(possiblelist, guess, feedback)
+            time.sleep(1)
+            number_of_tries -= 1
+        if number_of_tries == 0:
+            print("Computer heeft verloren!")
 
-
-def eenkleurAI():
-    """ Deze functie zorgt ervoor dat er een tegenstander is waar de gebruiker tegen kan spelen. De manier waarop
-    de AI keuzes maakt, is gebaseerd op een kleur kiezen. Daarna gebaseerd op de feedback worden andere keuzes gemaakt
-    """
-    pass
 
 
 textterminal()

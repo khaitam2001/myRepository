@@ -19,6 +19,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -26,7 +27,29 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.Opdracht 1b (1)">
+    <configuration name="Opdracht 1b (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="myRepository" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/AI/mastermind" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AI/mastermind/Opdracht 1b.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Opdracht 1b" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="myRepository" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -51,6 +74,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Opdracht 1b (1)" />
         <item itemvalue="Python.Opdracht 1b" />
       </list>
     </recent_temporary>
@@ -66,7 +90,9 @@
       <workItem from="1612517240036" duration="18751000" />
       <workItem from="1612726128902" duration="3651000" />
       <workItem from="1612730310196" duration="18970000" />
-      <workItem from="1612776414477" duration="7842000" />
+      <workItem from="1612776414477" duration="9070000" />
+      <workItem from="1612792869839" duration="707000" />
+      <workItem from="1613051627109" duration="4846000" />
     </task>
     <servers />
   </component>
@@ -74,38 +100,42 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="938" height="159" key="GridCell.Tab.0.bottom" timestamp="1612788796876">
+    <state x="740" y="295" key="FileChooserDialogImpl" timestamp="1612792510064">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="938" height="159" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1612788796876" />
-    <state width="938" height="159" key="GridCell.Tab.0.center" timestamp="1612788796876">
+    <state x="740" y="295" key="FileChooserDialogImpl/0.0.1920.1080@0.0.1920.1080" timestamp="1612792510064" />
+    <state width="938" height="159" key="GridCell.Tab.0.bottom" timestamp="1613062261712">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="938" height="159" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1612788796876" />
-    <state width="938" height="159" key="GridCell.Tab.0.left" timestamp="1612788796876">
+    <state width="938" height="159" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1613062261712" />
+    <state width="938" height="159" key="GridCell.Tab.0.center" timestamp="1613062261711">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="938" height="159" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1612788796876" />
-    <state width="938" height="159" key="GridCell.Tab.0.right" timestamp="1612788796876">
+    <state width="938" height="159" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1613062261711" />
+    <state width="938" height="159" key="GridCell.Tab.0.left" timestamp="1613062261711">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="938" height="159" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1612788796876" />
-    <state width="938" height="363" key="GridCell.Tab.1.bottom" timestamp="1612748163967">
+    <state width="938" height="159" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1613062261711" />
+    <state width="938" height="159" key="GridCell.Tab.0.right" timestamp="1613062261711">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="938" height="363" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1612748163967" />
-    <state width="938" height="363" key="GridCell.Tab.1.center" timestamp="1612748163967">
+    <state width="938" height="159" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1613062261711" />
+    <state width="938" height="363" key="GridCell.Tab.1.bottom" timestamp="1613062185749">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="938" height="363" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1612748163967" />
-    <state width="938" height="363" key="GridCell.Tab.1.left" timestamp="1612748163967">
+    <state width="938" height="363" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1613062185749" />
+    <state width="938" height="363" key="GridCell.Tab.1.center" timestamp="1613062185749">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="938" height="363" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1612748163967" />
-    <state width="938" height="363" key="GridCell.Tab.1.right" timestamp="1612748163967">
+    <state width="938" height="363" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1613062185749" />
+    <state width="938" height="363" key="GridCell.Tab.1.left" timestamp="1613062185748">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="938" height="363" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1612748163967" />
+    <state width="938" height="363" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1613062185748" />
+    <state width="938" height="363" key="GridCell.Tab.1.right" timestamp="1613062185749">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="938" height="363" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1613062185749" />
     <state x="512" y="269" width="894" height="542" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1612747775309">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -128,5 +158,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/myRepository$Opdracht_1b.coverage" NAME="Opdracht 1b Coverage Results" MODIFIED="1612788796869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/Opdracht 1b" />
+    <SUITE FILE_PATH="coverage/myRepository$Opdracht_1b__1_.coverage" NAME="Opdracht 1b (1) Coverage Results" MODIFIED="1613062261704" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/AI/mastermind" />
   </component>
 </project>
