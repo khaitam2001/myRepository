@@ -1,7 +1,32 @@
 """ Opdracht 1b """
 
+### (kleine) veranderingen ###
+
+# output van console veranderd in code van 'getal' naar 'letter' bij guess = input(...)
+# ongebruikte import weg (sorry als je die nog nodig had)
+
+### feedback ###
+
+# Werking van de code
+#   shapiroAI en worstcaseAI werken goed een suggestie om ook de feedback van z/w pinnen te tonen in de console.
+#   human werkt bijna goed, wanneer ik de geheime code goed invoer krijg ik wel de juiste feedback (4 zwart) maar de wincondition werkt nog niet goed dus het spel blijft doorgaan
+#   ook exit de code zonder lose berichtje.
+#   Ik kan een foutieve code invullen getallen of meerdere letters. Een oplossing hiervoor zou een valideerfunctie maken die de input controleert en eventueel reject.
+#   In het begin was me onduidelijk hoe ik de poging voor de geheime code moest inputten, zou dit handiger zijn in 1 input?
+
+# Efficientie/Indeling functies
+#   een suggestie zou zijn om de gameloop (textterminal) zo te coderen dat je de variablen als player, human, number_of_colors etc.
+#       kan meegeven als parameters en deze variablen te bepalen in een aparte functie of een standaard parameter waarde zoals je
+#           op die manier kan je een nieuw algoritme implementeren/ spel starten met andere spelregels zonder iets aan de gameloop te veranderen.
+#   sommige functies werken goed maar hebben ongebruikte parameters.
+
+
+# Commentaar
+# Docstrings zien er goed uit, het andere commentaar zou ik de """""" veranderen in # maar ik weet niet zeker wat daar de normen daar van zijn in python.
+# Ookal kan ik ( nu nog ) de code goed volgen staat er nog weinig commentaar in de functies zelf, bijv een korte uitleg bij een while/for loop of if statement zou handig zijn.
+
+
 from random import randrange
-import itertools
 import string
 import time
 
@@ -31,7 +56,7 @@ def textterminal():
         try:
             all_guesses = []
             for i in range(length_of_guess):
-                guess = input("Voer gok nummer " + str(i + 1) + " in: ")
+                guess = input("Voer gok getal " + str(i + 1) + " in: ")
                 all_guesses.append(guess)
         except ValueError:
             print("ValueError")
