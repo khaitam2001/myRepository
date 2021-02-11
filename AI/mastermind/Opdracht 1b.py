@@ -20,9 +20,8 @@ def textterminal():
 
     secret_code = generaterandomcode(number_of_colors, length_of_guess)
     print("(dit hoort de speler niet te zien) De geheime code is: " + str(secret_code))
-    print("De mogelijke nummers dat je kan gokken zijn: " + str(string.ascii_lowercase[0:6]))
-    time.sleep(1
-               )
+    print("De mogelijke getallen dat je kan gokken zijn: " + str(string.ascii_lowercase[0:6]))
+    time.sleep(1)
 
     answerguessed = False
 
@@ -36,13 +35,13 @@ def textterminal():
         except ValueError:
             print("ValueError")
         feedback = checkAnswer(all_guesses, secret_code)
-        if feedback == True:
+        if feedback["zwart"] == 4:
             answerguessed = True
             print("Correct! Je hebt gewonnen")
         else:
             number_of_tries -= 1
             print("Je hebt nog " + str(number_of_tries) + " pogingen.")
-            print(feedback)
+            print(str(feedback)  + "\n")
 
     """ Dit deel is gemaakt voor de shapiroAI. Het zorgt ervoor dat de functies die nodig zijn worden aangeroepen """
     if player == "shapiroAI":
@@ -120,6 +119,7 @@ def shapiroAI(number_of_colors, length_of_guess, number_of_tries, secret_code):
         guess = possiblelist[randrange(0, len(possiblelist))]
         print("De computer gokt: " + str(guess))
         feedback = checkAnswer(guess, secret_code)
+        print("Feedback is: " + str(feedback) + "\n")
         if guess == secret_code:
             answerguessed = True
             print("Correct! Computer heeft gewonnen")
@@ -203,6 +203,7 @@ def worstcaseAI(number_of_colors, length_of_guess, number_of_tries, secret_code)
             print("Correct! Computer heeft gewonnen")
         else:
             feedback = checkAnswer(guess, secret_code)
+            print("Feedback is: " + str(feedback) + "\n")
             possiblelist = generatepossiblecombinationslist(possiblelist, guess, feedback)
             number_of_tries -= 1
         if number_of_tries == 0:
@@ -218,24 +219,32 @@ def eenkleurAI(number_of_colors, length_of_guess, number_of_tries, secret_code):
     while answerguessed == False and number_of_tries > 0:
         potentialanswers = []
         allLetters = string.ascii_lowercase[0:6]
+        # Loopt door alle mogelijke antwoorden
         for answer in possiblelist:
             answer_copy = answer.copy()
+            # Loopt door alle letters
             for letter in allLetters:
+                # Als het geen error geeft wordt het antwoord toegevoegd aan een lijst van potentiele antwoorden
                 try:
                     for i in range(index):
                         answer_copy.remove(letter)
                     potentialanswers.append(answer)
                 except ValueError:
                     pass
+        # Als er geen potentiele antwoorden zijn gaat hij weer door de loop heen. Hij zoekt dan een kleinere aantal
+        # dezelfde letters.
         if potentialanswers == []:
             index -= 1
         else:
+            # Kiest een willekeurige code in "potentialanswers"
             guess = potentialanswers[randrange(0, len(potentialanswers))]
             print("Computer gokt: " + str(guess))
             if guess == secret_code:
                 print("Correct! Computer heeft gewonnen!")
                 answerguessed = True
             feedback = checkAnswer(guess, secret_code)
+            print("Feedback is: " + str(feedback) + "\n")
+            # Een nieuwe lijst wordt gemaakt met de gegeven feedback.
             possiblelist = generatepossiblecombinationslist(possiblelist, guess, feedback)
             time.sleep(1)
             number_of_tries -= 1
