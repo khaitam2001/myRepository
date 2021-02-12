@@ -43,7 +43,7 @@ def textterminal():
             print("Je hebt nog " + str(number_of_tries) + " pogingen.")
             print(str(feedback)  + "\n")
 
-    """ Dit deel is gemaakt voor de shapiroAI. Het zorgt ervoor dat de functies die nodig zijn worden aangeroepen """
+    """ Dit deel is gemaakt voor de AI. Het zorgt ervoor dat de functies die nodig zijn worden aangeroepen """
     if player == "shapiroAI":
         shapiroAI(number_of_colors, length_of_guess, number_of_tries, secret_code)
 
@@ -107,22 +107,25 @@ def checkAnswer(guessedanswer, correctanswer):
                 correctanswer_copy.remove(guessedanswer[i])
                 break
     return my_dict
-
+    
 
 def shapiroAI(number_of_colors, length_of_guess, number_of_tries, secret_code):
     """ Maakt keuzes gebaseerd op de strategie van shapiro. Er wordt een lijst gemaakt met mogelijk antwoorden. Daaruit
-    wordt er een willekeurig gekozen. Daarna worden keuzes weggehaald gebaseerd op de feedback met
+    wordt de eerste gekozen. Daarna worden keuzes weggehaald gebaseerd op de feedback met
     generatepossiblecombinationslist """
     possiblelist = generatecombinationslist(number_of_colors)
     answerguessed = False
     while answerguessed == False and number_of_tries > 0:
-        guess = possiblelist[randrange(0, len(possiblelist))]
+        # Computer kiest hier de eerste optie uit de lijst
+        guess = possiblelist[0]
         print("De computer gokt: " + str(guess))
         feedback = checkAnswer(guess, secret_code)
         print("Feedback is: " + str(feedback) + "\n")
+        # Als de computer correct gokt dan stopt de while loop
         if guess == secret_code:
             answerguessed = True
             print("Correct! Computer heeft gewonnen")
+            # Als de gok niet correct is wordt er een nieuwe potentiele combinaties lijst gemaakt
         else:
             possiblelist = generatepossiblecombinationslist(possiblelist, guess, feedback)
             number_of_tries -= 1
@@ -159,13 +162,16 @@ def worstcaseAI(number_of_colors, length_of_guess, number_of_tries, secret_code)
         firsttime = True
 
         if firstguess == False:
+            # Loop door alle potentiele antwoorden
             for possibleanswer in possiblelist:
                 index += 1
 
                 currentworstcaseoutcome = []
+                # Loop door alle mogelijke feedback dat je kan krijgen
                 for feedback in possiblefeedback:
 
                     outcome = generatepossiblecombinationslist(possiblelist, possibleanswer, feedback)
+                    # Het grootste getal wordt onthouden voor een nummer. Dit is dan de worst case
                     if len(outcome) > len(currentworstcaseoutcome):
                         currentworstcaseoutcome = outcome
                         if firsttime == True:
@@ -173,17 +179,12 @@ def worstcaseAI(number_of_colors, length_of_guess, number_of_tries, secret_code)
                             guess = possibleanswer
                             firsttime = False
                         my_dict[str(possibleanswer)] = len(currentworstcaseoutcome)
-                        # print(str(possibleanswer))
-                        # print(len(currentworstcaseoutcome))
+                # Als de worstcaseoutcome van dit antwoord minder lang is dan de vorige worstcase, dan wordt dit
+                # antwoord de guess
                 if len(currentworstcaseoutcome) < len(previousworstcaseoutcome):
                     previousworstcaseoutcome = currentworstcaseoutcome
                     guess = possibleanswer
             print("Computer deed: " + str(index) + " loops")
-
-            # print(len(currentworstcaseoutcome))
-            # print(possibleanswer)
-            # print(my_dict)
-            # time.sleep(1)
 
             minimum = min(my_dict.values())
             best_guesses = []
@@ -192,20 +193,25 @@ def worstcaseAI(number_of_colors, length_of_guess, number_of_tries, secret_code)
                 if worstcase == minimum:
                     best_guesses.append(answer)
 
+        # De allereerste gok is altijd ['a', 'a', 'b', 'b']
         if firstguess == True:
             guess = ['a', 'a', 'b', 'b']
             print("Computer gokt: " + str(guess))
             firstguess = False
+        # Alle andere gokken zijn "guess"
         else:
-            print("Computer gokt: " + str(best_guesses[randrange(0, len(best_guesses))]))
+            print("Computer gokt: " + str(guess))
+        # Als guess correct is dan stopt de while loop
         if guess == secret_code:
             answerguessed = True
             print("Correct! Computer heeft gewonnen")
+        # Als guess niet correct wordt er een nieuwe potentiele combinatie lijst gemaakt
         else:
             feedback = checkAnswer(guess, secret_code)
             print("Feedback is: " + str(feedback) + "\n")
             possiblelist = generatepossiblecombinationslist(possiblelist, guess, feedback)
             number_of_tries -= 1
+            time.sleep(1)
         if number_of_tries == 0:
             print("Computer heeft verloren!")
 
