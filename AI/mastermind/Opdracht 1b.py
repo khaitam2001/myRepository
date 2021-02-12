@@ -107,7 +107,7 @@ def checkAnswer(guessedanswer, correctanswer):
                 correctanswer_copy.remove(guessedanswer[i])
                 break
     return my_dict
-    
+
 
 def shapiroAI(number_of_colors, length_of_guess, number_of_tries, secret_code):
     """ Maakt keuzes gebaseerd op de strategie van shapiro. Er wordt een lijst gemaakt met mogelijk antwoorden. Daaruit
@@ -129,6 +129,7 @@ def shapiroAI(number_of_colors, length_of_guess, number_of_tries, secret_code):
         else:
             possiblelist = generatepossiblecombinationslist(possiblelist, guess, feedback)
             number_of_tries -= 1
+            time.sleep(1)
         if number_of_tries == 0:
             print("Computer heeft verloren!")
 
