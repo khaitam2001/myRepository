@@ -30,7 +30,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareA2">
@@ -46,7 +46,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareA3">
@@ -62,7 +62,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareA4">
@@ -78,7 +78,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareA5">
@@ -94,7 +94,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareA6">
@@ -110,7 +110,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareA7">
@@ -126,7 +126,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareA8">
@@ -142,7 +142,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="aColumn">
@@ -178,7 +178,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareB3">
@@ -194,7 +194,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareB4">
@@ -210,7 +210,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareB2">
@@ -226,7 +226,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareB5">
@@ -242,7 +242,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="bColumn">
@@ -274,7 +274,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareB7">
@@ -290,7 +290,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareB1">
@@ -306,7 +306,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareC5">
@@ -322,7 +322,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareC4">
@@ -338,7 +338,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareC1">
@@ -354,7 +354,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareC3">
@@ -370,7 +370,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareC6">
@@ -386,7 +386,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="cColumn">
@@ -422,7 +422,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareC8">
@@ -438,7 +438,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareC2">
@@ -454,7 +454,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareD6">
@@ -470,7 +470,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareD7">
@@ -486,7 +486,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareD5">
@@ -502,7 +502,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareD1">
@@ -518,7 +518,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareD3">
@@ -534,7 +534,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareD4">
@@ -550,7 +550,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareD2">
@@ -566,7 +566,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareD8">
@@ -582,7 +582,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="dColumn">
@@ -614,7 +614,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareE2">
@@ -630,7 +630,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareE6">
@@ -646,7 +646,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareE7">
@@ -662,7 +662,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareE1">
@@ -678,7 +678,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareE3">
@@ -694,7 +694,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareE5">
@@ -710,7 +710,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="eColumn">
@@ -746,14 +746,14 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareF2">
     <property name="geometry">
      <rect>
-      <x>501</x>
-      <y>601</y>
+      <x>500</x>
+      <y>600</y>
       <width>101</width>
       <height>101</height>
      </rect>
@@ -762,14 +762,14 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareF6">
     <property name="geometry">
      <rect>
-      <x>501</x>
-      <y>201</y>
+      <x>500</x>
+      <y>200</y>
       <width>101</width>
       <height>101</height>
      </rect>
@@ -778,14 +778,14 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareF7">
     <property name="geometry">
      <rect>
-      <x>501</x>
-      <y>101</y>
+      <x>500</x>
+      <y>100</y>
       <width>101</width>
       <height>101</height>
      </rect>
@@ -794,14 +794,14 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareF5">
     <property name="geometry">
      <rect>
-      <x>501</x>
-      <y>301</y>
+      <x>500</x>
+      <y>300</y>
       <width>101</width>
       <height>101</height>
      </rect>
@@ -810,14 +810,14 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareF4">
     <property name="geometry">
      <rect>
-      <x>501</x>
-      <y>401</y>
+      <x>500</x>
+      <y>400</y>
       <width>101</width>
       <height>101</height>
      </rect>
@@ -826,14 +826,14 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareF1">
     <property name="geometry">
      <rect>
-      <x>501</x>
-      <y>701</y>
+      <x>500</x>
+      <y>700</y>
       <width>101</width>
       <height>101</height>
      </rect>
@@ -842,14 +842,14 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareF8">
     <property name="geometry">
      <rect>
-      <x>501</x>
-      <y>1</y>
+      <x>500</x>
+      <y>0</y>
       <width>101</width>
       <height>101</height>
      </rect>
@@ -858,14 +858,14 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareF3">
     <property name="geometry">
      <rect>
-      <x>501</x>
-      <y>501</y>
+      <x>500</x>
+      <y>500</y>
       <width>101</width>
       <height>101</height>
      </rect>
@@ -874,7 +874,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="fColumn">
@@ -906,7 +906,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareG4">
@@ -922,7 +922,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareG1">
@@ -938,7 +938,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareG5">
@@ -954,7 +954,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareG3">
@@ -970,7 +970,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="gColumn">
@@ -1006,7 +1006,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareG6">
@@ -1022,7 +1022,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareG7">
@@ -1038,7 +1038,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareH5">
@@ -1054,7 +1054,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareH6">
@@ -1070,7 +1070,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareH3">
@@ -1086,7 +1086,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareH8">
@@ -1102,7 +1102,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareH7">
@@ -1118,7 +1118,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareH1">
@@ -1134,7 +1134,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_square.png</pixmap>
+     <pixmap>Images/white_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="hColumn">
@@ -1166,7 +1166,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="squareH4">
@@ -1182,7 +1182,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>green_square.png</pixmap>
+     <pixmap>Images/green_square.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="row1">
@@ -1345,7 +1345,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_pawn.png</pixmap>
+     <pixmap>Images/white_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_pawn_b">
@@ -1364,7 +1364,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_pawn.png</pixmap>
+     <pixmap>Images/white_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_pawn_c">
@@ -1383,7 +1383,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_pawn.png</pixmap>
+     <pixmap>Images/white_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_pawn_d">
@@ -1402,7 +1402,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_pawn.png</pixmap>
+     <pixmap>Images/white_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_pawn_e">
@@ -1421,7 +1421,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_pawn.png</pixmap>
+     <pixmap>Images/white_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_pawn_f">
@@ -1440,7 +1440,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_pawn.png</pixmap>
+     <pixmap>Images/white_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_pawn_g">
@@ -1459,7 +1459,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_pawn.png</pixmap>
+     <pixmap>Images/white_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_pawn_h">
@@ -1478,7 +1478,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_pawn.png</pixmap>
+     <pixmap>Images/white_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_rook_a">
@@ -1494,7 +1494,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_rook.png</pixmap>
+     <pixmap>Images/white_rook.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_rook_h">
@@ -1510,7 +1510,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_rook.png</pixmap>
+     <pixmap>Images/white_rook.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_knight_b">
@@ -1526,7 +1526,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_knight.png</pixmap>
+     <pixmap>Images/white_knight.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_knight_g">
@@ -1542,7 +1542,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_knight.png</pixmap>
+     <pixmap>Images/white_knight.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_bishop_c">
@@ -1558,7 +1558,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_bishop.png</pixmap>
+     <pixmap>Images/white_bishop.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_biship_f">
@@ -1574,7 +1574,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_bishop.png</pixmap>
+     <pixmap>Images/white_bishop.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_queen">
@@ -1590,7 +1590,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_queen.png</pixmap>
+     <pixmap>Images/white_queen.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="white_king">
@@ -1606,7 +1606,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>white_king.png</pixmap>
+     <pixmap>Images/white_king.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_pawn_a">
@@ -1622,7 +1622,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_pawn.png</pixmap>
+     <pixmap>Images/black_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_pawn_b">
@@ -1638,7 +1638,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_pawn.png</pixmap>
+     <pixmap>Images/black_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_pawn_c">
@@ -1654,7 +1654,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_pawn.png</pixmap>
+     <pixmap>Images/black_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_pawn_d">
@@ -1670,7 +1670,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_pawn.png</pixmap>
+     <pixmap>Images/black_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_pawn_e">
@@ -1686,7 +1686,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_pawn.png</pixmap>
+     <pixmap>Images/black_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_pawn_f">
@@ -1718,7 +1718,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_pawn.png</pixmap>
+     <pixmap>Images/black_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_pawn_h">
@@ -1734,7 +1734,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_pawn.png</pixmap>
+     <pixmap>Images/black_pawn.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_rook_a">
@@ -1750,7 +1750,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_rook.png</pixmap>
+     <pixmap>Images/black_rook.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_rook_h">
@@ -1766,23 +1766,10 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_rook.png</pixmap>
+     <pixmap>Images/black_rook.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_knight_b">
-    <property name="geometry">
-     <rect>
-      <x>100</x>
-      <y>0</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="black_knight_b_2">
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -1795,7 +1782,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_knight.png</pixmap>
+     <pixmap>Images/black_knight.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_knight_g">
@@ -1811,7 +1798,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_knight.png</pixmap>
+     <pixmap>Images/black_knight.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_biship_c">
@@ -1827,7 +1814,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_bishop.png</pixmap>
+     <pixmap>Images/black_bishop.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_biship_f">
@@ -1843,7 +1830,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_bishop.png</pixmap>
+     <pixmap>Images/black_bishop.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="black_queen">
@@ -1859,10 +1846,10 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_queen.png</pixmap>
+     <pixmap>Images/black_queen.png</pixmap>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="black_king">
     <property name="geometry">
      <rect>
       <x>400</x>
@@ -1875,7 +1862,7 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>black_king.png</pixmap>
+     <pixmap>Images/black_king.png</pixmap>
     </property>
    </widget>
    <zorder>squareB2</zorder>
@@ -1985,12 +1972,11 @@ p, li { white-space: pre-wrap; }
    <zorder>black_rook_a</zorder>
    <zorder>black_rook_h</zorder>
    <zorder>black_knight_b</zorder>
-   <zorder>black_knight_b_2</zorder>
    <zorder>black_knight_g</zorder>
    <zorder>black_biship_c</zorder>
    <zorder>black_biship_f</zorder>
    <zorder>black_queen</zorder>
-   <zorder>label_2</zorder>
+   <zorder>black_king</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
