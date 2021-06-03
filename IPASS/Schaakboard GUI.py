@@ -1,9 +1,12 @@
-from PyQt5.QtWidgets import QApplication, QLabel, QWidget
-from PyQt5.QtGui import QDrag, QPixmap, QPainter, QCursor
+from PyQt5.QtMultimedia import QSound
+from PyQt5.QtWidgets import QApplication, QLabel
+from PyQt5.QtGui import QDrag, QPixmap, QPainter
 from PyQt5.QtCore import QMimeData, Qt
 
 import sys
 import string
+from myRepository.IPASS.Schaakstukken import Rook
+
 
 # Dit is gemaakt met behulp van Qt designer.
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -442,32 +445,32 @@ class Ui_MainWindow(object):
         self.white_rook_h.setText("")
         self.white_rook_h.setPixmap(QtGui.QPixmap("Images/white_rook.png"))
         self.white_rook_h.setObjectName("white_rook_h")
-        self.white_knight_b = QtWidgets.QLabel(self.centralwidget)
+        self.white_knight_b = Knight(self.centralwidget)
         self.white_knight_b.setGeometry(QtCore.QRect(100, 700, 101, 101))
         self.white_knight_b.setText("")
         self.white_knight_b.setPixmap(QtGui.QPixmap("Images/white_knight.png"))
         self.white_knight_b.setObjectName("white_knight_b")
-        self.white_knight_g = QtWidgets.QLabel(self.centralwidget)
+        self.white_knight_g = Knight(self.centralwidget)
         self.white_knight_g.setGeometry(QtCore.QRect(600, 700, 101, 101))
         self.white_knight_g.setText("")
         self.white_knight_g.setPixmap(QtGui.QPixmap("Images/white_knight.png"))
         self.white_knight_g.setObjectName("white_knight_g")
-        self.white_bishop_c = QtWidgets.QLabel(self.centralwidget)
+        self.white_bishop_c = Bishop(self.centralwidget)
         self.white_bishop_c.setGeometry(QtCore.QRect(200, 700, 101, 101))
         self.white_bishop_c.setText("")
         self.white_bishop_c.setPixmap(QtGui.QPixmap("Images/white_bishop.png"))
         self.white_bishop_c.setObjectName("white_bishop_c")
-        self.white_biship_f = QtWidgets.QLabel(self.centralwidget)
-        self.white_biship_f.setGeometry(QtCore.QRect(500, 700, 101, 101))
-        self.white_biship_f.setText("")
-        self.white_biship_f.setPixmap(QtGui.QPixmap("Images/white_bishop.png"))
-        self.white_biship_f.setObjectName("white_biship_f")
-        self.white_queen = QtWidgets.QLabel(self.centralwidget)
+        self.white_bishop_f = Bishop(self.centralwidget)
+        self.white_bishop_f.setGeometry(QtCore.QRect(500, 700, 101, 101))
+        self.white_bishop_f.setText("")
+        self.white_bishop_f.setPixmap(QtGui.QPixmap("Images/white_bishop.png"))
+        self.white_bishop_f.setObjectName("white_bishop_f")
+        self.white_queen = Queen(self.centralwidget)
         self.white_queen.setGeometry(QtCore.QRect(300, 700, 101, 101))
         self.white_queen.setText("")
         self.white_queen.setPixmap(QtGui.QPixmap("Images/white_queen.png"))
         self.white_queen.setObjectName("white_queen")
-        self.white_king = QtWidgets.QLabel(self.centralwidget)
+        self.white_king = King(self.centralwidget)
         self.white_king.setGeometry(QtCore.QRect(400, 700, 101, 101))
         self.white_king.setText("")
         self.white_king.setPixmap(QtGui.QPixmap("Images/white_king.png"))
@@ -522,32 +525,32 @@ class Ui_MainWindow(object):
         self.black_rook_h.setText("")
         self.black_rook_h.setPixmap(QtGui.QPixmap("Images/black_rook.png"))
         self.black_rook_h.setObjectName("black_rook_h")
-        self.black_knight_b = QtWidgets.QLabel(self.centralwidget)
+        self.black_knight_b = Knight(self.centralwidget)
         self.black_knight_b.setGeometry(QtCore.QRect(100, 0, 101, 101))
         self.black_knight_b.setText("")
         self.black_knight_b.setPixmap(QtGui.QPixmap("Images/black_knight.png"))
         self.black_knight_b.setObjectName("black_knight_b")
-        self.black_knight_g = QtWidgets.QLabel(self.centralwidget)
+        self.black_knight_g = Knight(self.centralwidget)
         self.black_knight_g.setGeometry(QtCore.QRect(600, 0, 101, 101))
         self.black_knight_g.setText("")
         self.black_knight_g.setPixmap(QtGui.QPixmap("Images/black_knight.png"))
         self.black_knight_g.setObjectName("black_knight_g")
-        self.black_biship_c = QtWidgets.QLabel(self.centralwidget)
-        self.black_biship_c.setGeometry(QtCore.QRect(200, 0, 101, 101))
-        self.black_biship_c.setText("")
-        self.black_biship_c.setPixmap(QtGui.QPixmap("Images/black_bishop.png"))
-        self.black_biship_c.setObjectName("black_biship_c")
-        self.black_biship_f = QtWidgets.QLabel(self.centralwidget)
-        self.black_biship_f.setGeometry(QtCore.QRect(500, 0, 101, 101))
-        self.black_biship_f.setText("")
-        self.black_biship_f.setPixmap(QtGui.QPixmap("Images/black_bishop.png"))
-        self.black_biship_f.setObjectName("black_biship_f")
-        self.black_queen = QtWidgets.QLabel(self.centralwidget)
+        self.black_bishop_c = Bishop(self.centralwidget)
+        self.black_bishop_c.setGeometry(QtCore.QRect(200, 0, 101, 101))
+        self.black_bishop_c.setText("")
+        self.black_bishop_c.setPixmap(QtGui.QPixmap("Images/black_bishop.png"))
+        self.black_bishop_c.setObjectName("black_bishop_c")
+        self.black_bishop_f = Bishop(self.centralwidget)
+        self.black_bishop_f.setGeometry(QtCore.QRect(500, 0, 101, 101))
+        self.black_bishop_f.setText("")
+        self.black_bishop_f.setPixmap(QtGui.QPixmap("Images/black_bishop.png"))
+        self.black_bishop_f.setObjectName("black_bishop_f")
+        self.black_queen = Queen(self.centralwidget)
         self.black_queen.setGeometry(QtCore.QRect(300, 0, 101, 101))
         self.black_queen.setText("")
         self.black_queen.setPixmap(QtGui.QPixmap("Images/black_queen.png"))
         self.black_queen.setObjectName("black_queen")
-        self.black_king = QtWidgets.QLabel(self.centralwidget)
+        self.black_king = King(self.centralwidget)
         self.black_king.setGeometry(QtCore.QRect(400, 0, 101, 101))
         self.black_king.setText("")
         self.black_king.setPixmap(QtGui.QPixmap("Images/black_king.png"))
@@ -645,7 +648,7 @@ class Ui_MainWindow(object):
         self.white_knight_b.raise_()
         self.white_knight_g.raise_()
         self.white_bishop_c.raise_()
-        self.white_biship_f.raise_()
+        self.white_bishop_f.raise_()
         self.white_queen.raise_()
         self.white_king.raise_()
         self.black_pawn_a.raise_()
@@ -660,8 +663,8 @@ class Ui_MainWindow(object):
         self.black_rook_h.raise_()
         self.black_knight_b.raise_()
         self.black_knight_g.raise_()
-        self.black_biship_c.raise_()
-        self.black_biship_f.raise_()
+        self.black_bishop_c.raise_()
+        self.black_bishop_f.raise_()
         self.black_queen.raise_()
         self.black_king.raise_()
         MainWindow.setCentralWidget(self.centralwidget)
@@ -761,24 +764,24 @@ class Ui_MainWindow(object):
 
         blackPieces = [self.black_pawn_a, self.black_pawn_b, self.black_pawn_c, self.black_pawn_d, self.black_pawn_e,
                      self.black_pawn_f, self.black_pawn_g, self.black_pawn_h, self.black_rook_a, self.black_rook_h,
-                     self.black_knight_b, self.black_knight_g, self.black_biship_c, self.black_biship_f,
+                     self.black_knight_b, self.black_knight_g, self.black_bishop_c, self.black_bishop_f,
                      self.black_queen, self.black_king]
 
         whitePieces = [self.white_pawn_a, self.white_pawn_b, self.white_pawn_c, self.white_pawn_d, self.white_pawn_e,
                      self.white_pawn_f, self.white_pawn_g, self.white_pawn_h, self.white_rook_a, self.white_rook_h,
-                     self.white_knight_b, self.white_knight_g, self.white_bishop_c, self.white_biship_f,
+                     self.white_knight_b, self.white_knight_g, self.white_bishop_c, self.white_bishop_f,
                      self.white_queen, self.white_king]
 
 
 
-# Schaakstuk en Square zijn grotendeels gemaakt door https://stackoverflow.com/questions/50232639/drag-and-drop-qlabels-with-pyqt5
+# ChessPiece en Square zijn grotendeels gemaakt door https://stackoverflow.com/questions/50232639/drag-and-drop-qlabels-with-pyqt5
 
 
-class Schaakstuk(QLabel):
-
+class ChessPiece(QLabel, allSquares):
     def __init__(self, *args, **kwargs):
         QLabel.__init__(self, *args, **kwargs)
         self.setAcceptDrops(True)
+        self.hasMoved = False
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasText():
@@ -786,16 +789,21 @@ class Schaakstuk(QLabel):
 
     def dropEvent(self, event):
         temp = []
-        for square in clickedPieceObject.getPossibleAttackSquares():
+        # Hier checken we of een ChessPiece een andere ChessPiece mag aanvallen
+        for square in clickedPieceObject.getLegalMoves(allSquares):
+            # Voeg alle squares toe aan temp die wij kunnen aanvallen.
             temp.append(square.objectName())
         if (self.getPosition() in temp):
+            # Als de positie van dat ChessPiece in temp zit, dan kunnen we hem aanvallen. Anders niet.
             clickedPieceObject.move(self.pos())
+            clickedPieceObject.hasMoved = True
 
             # self.hide(), self.setParent(None) en anderen werken niet. Daarom gebruik ik self.move om hem weg te
             # halen van het scherm
             self.move(-100, -100)
             event.acceptProposedAction()
         else:
+            # Als dat niet kan, dan printen we dat het niet kan.
             print(clickedPieceObject.objectName() + " can't go to " + self.objectName())
 
     def mousePressEvent(self, event):
@@ -831,6 +839,7 @@ class Schaakstuk(QLabel):
 
 
 class Square(QLabel):
+    # Dit is de class voor alle squares. Bijvoorbeeld de square A1
     def __init__(self, *args, **kwargs):
         QLabel.__init__(self, *args, **kwargs)
         self.setAcceptDrops(True)
@@ -840,8 +849,9 @@ class Square(QLabel):
             event.acceptProposedAction()
 
     def dropEvent(self, event):
-        if (self in clickedPieceObject.getPossibleAttackSquares()):
+        if (self in clickedPieceObject.getLegalMoves()):
             clickedPieceObject.move(self.pos())
+            clickedPieceObject.hasMoved = True
             event.acceptProposedAction()
         else:
             print(clickedPieceObject.objectName() + " can't go to " + self.objectName())
@@ -856,103 +866,340 @@ class Square(QLabel):
             return None
 
 
-class Rook(Schaakstuk):
-    def getPossibleAttackSquares(self):
-        """ Return een lijst met squares die kunnen worden aangevallen. """
+class Knight(ChessPiece):
+    def getLegalMoves(self):
+        """ Return een lijst met squares die kunnen worden aangevallen door een knight"""
         possibleAttackSquares = []
 
-        # Als er niks onder hem staat dan kan de rook ernaar toe, totdat er wel iets staat
-        for square in self.getAttackSquaresUnder():
+        for square in self.getAttackSquaresLeftSide():
             if square.containsPiece() == None:
                 possibleAttackSquares.append(square)
             else:
+                # Als er een stuk staat op die plek, dan moeten we kijken of het een witte stuk is of een zwarte stuk
                 if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    # Als het van een andere team is, dan voegen we hem toe aan de mogelijke squares die we kunnen
+                    # aanvallen.
                     possibleAttackSquares.append(square)
-                    break
-                else:
-                    break
 
-        # Als er niks boven hem staat dan kan de rook ernaar toe, totdat er wel iets staat
         for square in self.getAttackSquaresAbove():
             if square.containsPiece() == None:
                 possibleAttackSquares.append(square)
             else:
                 if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
                     possibleAttackSquares.append(square)
-                    break
-                else:
-                    break
 
-        # Als er niks links van hem staat dan kan de rook ernaar toe, totdat er wel iets staat
-        for square in self.getAttackSquaresLeft():
+        for square in self.getAttackSquaresRightSide():
             if square.containsPiece() == None:
                 possibleAttackSquares.append(square)
             else:
                 if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
                     possibleAttackSquares.append(square)
-                    break
-                else:
-                    break
 
-        # Als er niks rechts van hem staat dan kan de rook ernaar toe, totdat er wel iets staat
-        for square in self.getAttackSquaresRight():
+        for square in self.getAttackSquaresBelow():
             if square.containsPiece() == None:
                 possibleAttackSquares.append(square)
             else:
                 if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
                     possibleAttackSquares.append(square)
-                    break
-                else:
-                    break
+
         return possibleAttackSquares
 
-
-    def getAttackSquaresUnder(self):
-        # Return een lijst met squares die onder de rook zitten.
+    def getAttackSquaresLeftSide(self):
+        # Zoekt naar de squares die kunnen worden aangevallen door de knight die links van hem staan
         currentSquare = self.getPosition()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
+        alphabet = string.ascii_uppercase
+
+        searchSquares = [alphabet[alphabet.find(column) - 2] + str(int(row) - 1),
+                         alphabet[alphabet.find(column) - 2] + str(int(row) + 1)]
+
         for square in allSquares:
-            if (column == square.objectName()[-2] and int(row) > int(square.objectName()[-1])):
-                possibleAttackSquares.insert(0, square)
+            for searchSquare in searchSquares:
+                if searchSquare in square.objectName():
+                    possibleAttackSquares.append(square)
+
         return possibleAttackSquares
 
     def getAttackSquaresAbove(self):
-        # Return een lijst met squares die boven de rook zitten.
+        # Zoekt naar de squares die kunnen worden aangevallen door de knight die boven hem staan
         currentSquare = self.getPosition()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
+        alphabet = string.ascii_uppercase
+
+        searchSquares = [alphabet[alphabet.find(column) - 1] + str(int(row) + 2),
+                         alphabet[alphabet.find(column) + 1] + str(int(row) + 2)]
+
         for square in allSquares:
-            if (column == square.objectName()[-2] and int(row) < int(square.objectName()[-1])):
+            for searchSquare in searchSquares:
+                if searchSquare in square.objectName():
+                    possibleAttackSquares.append(square)
+
+        return possibleAttackSquares
+
+    def getAttackSquaresRightSide(self):
+        # Zoekt naar de squares die kunnen worden aangevallen door de knight die rechts van hem staan
+        currentSquare = self.getPosition()
+        row = currentSquare[-1:]
+        column = currentSquare[-2: -1]
+        possibleAttackSquares = []
+        alphabet = string.ascii_uppercase
+
+        searchSquares = [alphabet[alphabet.find(column) + 2] + str(int(row) - 1),
+                         alphabet[alphabet.find(column) + 2] + str(int(row) + 1)]
+
+
+        for square in allSquares:
+            for searchSquare in searchSquares:
+                if searchSquare in square.objectName():
+                    possibleAttackSquares.append(square)
+
+        return possibleAttackSquares
+
+    def getAttackSquaresBelow(self):
+        # Zoekt naar de squares die kunnen worden aangevallen door de knight die onder hem staan
+        currentSquare = self.getPosition()
+        row = currentSquare[-1:]
+        column = currentSquare[-2: -1]
+        possibleAttackSquares = []
+        alphabet = string.ascii_uppercase
+
+        searchSquares = [alphabet[alphabet.find(column) - 1] + str(int(row) - 2),
+                         alphabet[alphabet.find(column) + 1] + str(int(row) - 2)]
+
+
+        for square in allSquares:
+            for searchSquare in searchSquares:
+                if searchSquare in square.objectName():
+                    possibleAttackSquares.append(square)
+
+        return possibleAttackSquares
+
+
+class Bishop(ChessPiece):
+    def getLegalMoves(self):
+        """ Return een lijst met squares die kunnen worden aangevallen door een bishop"""
+        possibleAttackSquares = []
+
+        for square in self.getAttackSquaresDiagNE():
+            if square.containsPiece() == None:
                 possibleAttackSquares.append(square)
-        return possibleAttackSquares
+            else:
+                # Als er een stuk staat op die plek, dan moeten we kijken of het een witte stuk is of een zwarte stuk
+                if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    # Als het van een andere team is, dan voegen we hem toe aan de mogelijke squares die we kunnen
+                    # aanvallen.
+                    possibleAttackSquares.append(square)
+                    break
+                else:
+                    # Als het van je eigen team is, kan je hem niet aanvallen en dus doen we niks.
+                    break
 
-    def getAttackSquaresRight(self):
-        # Return een lijst met squares die aangevallen kunnen worden die links van het schaakstuk zitten.
-        currentSquare = self.getPosition()
-        row = currentSquare[-1:]
-        column = currentSquare[-2: -1]
-        possibleAttackSquares = []
-        for square in allSquares:
-            if (column < square.objectName()[-2] and row == square.objectName()[-1]):
+        for square in self.getAttackSquaresDiagNW():
+            if square.containsPiece() == None:
                 possibleAttackSquares.append(square)
+            else:
+                if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    possibleAttackSquares.append(square)
+                    break
+                else:
+                    break
+
+        for square in self.getAttackSquaresDiagSW():
+            if square.containsPiece() == None:
+                possibleAttackSquares.append(square)
+            else:
+                if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    possibleAttackSquares.append(square)
+                    break
+                else:
+                    break
+
+        for square in self.getAttackSquaresDiagSE():
+            if square.containsPiece() == None:
+                possibleAttackSquares.append(square)
+            else:
+                if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    possibleAttackSquares.append(square)
+                    break
+                else:
+                    break
+
         return possibleAttackSquares
 
-    def getAttackSquaresLeft(self):
-        # Return een lijst met squares die aangevallen kunnen worden die links van het schaakstuk zitten.
+    def getAttackSquaresDiagNE(self):
+        # Haalt alle squares die NE (north east) van het ChessPiece zitten.
         currentSquare = self.getPosition()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
+        alphabet = string.ascii_uppercase[0:8]
+        temp = []
+
+        try:
+            for i in range(1, 8):
+                if (int(row) + i > 8) or (alphabet[alphabet.find(column) + i] == "H"):
+                    search = alphabet[alphabet.find(column) + i] + str(int(row) + i)
+                    temp.append(search)
+                    break
+                else:
+                    search = alphabet[alphabet.find(column) + i] + str(int(row) + i)
+                    temp.append(search)
+        except IndexError:
+            pass
+
         for square in allSquares:
-            if (column > square.objectName()[-2] and row == square.objectName()[-1]):
-                possibleAttackSquares.insert(0, square)
+            for search in temp:
+                if search in square.objectName():
+                    possibleAttackSquares.append(square)
+
         return possibleAttackSquares
 
-class WhitePawn(Schaakstuk):
-    def getPossibleAttackSquares(self):
+    def getAttackSquaresDiagNW(self):
+        # Haalt alle squares die NW (north west) van het ChessPiece zitten.
+        currentSquare = self.getPosition()
+        row = currentSquare[-1:]
+        column = currentSquare[-2: -1]
+        possibleAttackSquares = []
+        alphabet = string.ascii_uppercase[0:8]
+        temp = []
+
+        try:
+            for i in range(1, 8):
+                if (int(row) + i > 8) or (alphabet[alphabet.find(column) - i] == "A"):
+                    search = alphabet[alphabet.find(column) - i] + str(int(row) + i)
+                    temp.append(search)
+                    break
+                else:
+                    search = alphabet[alphabet.find(column) - i] + str(int(row) + i)
+                    temp.append(search)
+        except IndexError:
+            pass
+
+        for square in allSquares:
+            for search in temp:
+                if search in square.objectName():
+                    possibleAttackSquares.insert(0, square)
+
+        return possibleAttackSquares
+
+    def getAttackSquaresDiagSW(self):
+        # Haalt alle squares die NW (south west) van het ChessPiece zitten.
+        currentSquare = self.getPosition()
+        row = currentSquare[-1:]
+        column = currentSquare[-2: -1]
+        possibleAttackSquares = []
+        alphabet = string.ascii_uppercase[0:8]
+        temp = []
+
+        try:
+            for i in range(int(row) - 1, 0, -1):
+                if alphabet[alphabet.find(column) + i - int(row)] == "A":
+                    temp.append(alphabet[alphabet.find(column) + i - int(row)] + str(i))
+                    break
+                else:
+                    temp.append(alphabet[alphabet.find(column) + i - int(row)] + str(i))
+        except IndexError:
+            pass
+
+        for square in allSquares:
+            for search in temp:
+                if search in square.objectName():
+                    possibleAttackSquares.insert(0, square)
+
+        return possibleAttackSquares
+
+    def getAttackSquaresDiagSE(self):
+        # Haalt alle squares die SE (south east) van het ChessPiece zitten.
+        currentSquare = self.getPosition()
+        row = currentSquare[-1:]
+        column = currentSquare[-2: -1]
+        possibleAttackSquares = []
+        alphabet = string.ascii_uppercase[0:8]
+        temp = []
+
+        try:
+            for i in range(int(row) - 1, 0, -1):
+                if alphabet[alphabet.find(column) + int(row) - i] == "H":
+                    temp.append(alphabet[alphabet.find(column) + int(row) - i] + str(i))
+                    break
+                else:
+                    temp.append(alphabet[alphabet.find(column) + int(row) - i] + str(i))
+                    pass
+        except IndexError:
+            pass
+
+        for square in allSquares:
+            for search in temp:
+                if search in square.objectName():
+                    possibleAttackSquares.append(square)
+
+        return possibleAttackSquares
+
+
+
+
+
+class Queen(Rook, Bishop):
+    def getLegalMoves(self):
+        possibleAttackSquares = []
+
+        for square in Rook.getLegalMoves(self):
+            possibleAttackSquares.append(square)
+
+        for square in Bishop.getLegalMoves(self):
+            possibleAttackSquares.append(square)
+
+        return possibleAttackSquares
+
+
+class King(ChessPiece):
+    def getLegalMoves(self):
+        # Return een lijst met squares waar een koning naartoe kan gaan.
+        possibleAttackSquares = []
+        for square in self.getSquaresAroundPiece():
+            if square.containsPiece() == None:
+                possibleAttackSquares.append(square)
+            else:
+                # Als het stuk van een andere team is, dan kunnen we hem aanvallen.
+                if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    possibleAttackSquares.append(square)
+        self.castleLong()
+
+        return possibleAttackSquares
+
+    def getSquaresAroundPiece(self):
+        # Return een lijst met squares die om de koning heen zitten
+        currentSquare = self.getPosition()
+        row = currentSquare[-1:]
+        column = currentSquare[-2: -1]
+        alphabet = string.ascii_uppercase
+        possibleAttackSquares = []
+
+        squareNames = []
+        for i in range(-1, 2):
+            squareNames.append(alphabet[alphabet.find(column) + i] + str(int(row) - 1))
+            squareNames.append(alphabet[alphabet.find(column) + i] + str(int(row)))
+            squareNames.append(alphabet[alphabet.find(column) + i] + str(int(row) + 1))
+
+        for square in allSquares:
+            for name in squareNames:
+                if name in square.objectName():
+                    possibleAttackSquares.append(square)
+
+        return possibleAttackSquares
+
+    def castleLong(self):
+        # Return een square, als castleLong een legal move is.
+        if ("white" in self.objectName()) and (allSquares[0].containsPiece().hasMoved == False):
+            print(allSquares)
+            print(allSquares[0].containsPiece().hasMoved)
+
+class WhitePawn(ChessPiece):
+    def getLegalMoves(self):
         possibleAttackSquares = []
 
         for square in self.getAttackSquaresAbove():
@@ -992,7 +1239,7 @@ class WhitePawn(Schaakstuk):
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
 
-        if int(row) == 2:
+        if self.hasMoved == False:
             for square in allSquares:
                 if ((column == square.objectName()[-2] and int(row) + 1 == int(square.objectName()[-1])) or
                         (column == square.objectName()[-2] and int(row) + 2 == int(square.objectName()[-1]))):
@@ -1003,9 +1250,10 @@ class WhitePawn(Schaakstuk):
                     possibleAttackSquares.append(square)
         return possibleAttackSquares
 
-class BlackPawn(Schaakstuk):
-    def getPossibleAttackSquares(self):
+class BlackPawn(ChessPiece):
+    def getLegalMoves(self):
         possibleAttackSquares = []
+
 
         for square in self.getAttackSquaresAbove():
             # Als er niks voor hem staat kan de pawn vooruit
@@ -1045,11 +1293,11 @@ class BlackPawn(Schaakstuk):
         possibleAttackSquares = []
 
         # Als ze op de eerste rij zitten, kunnen ze 2 stappen vooruit
-        if int(row) == 7:
+        if self.hasMoved == False:
             for square in allSquares:
                 if ((column == square.objectName()[-2] and int(row) - 1 == int(square.objectName()[-1])) or
                         (column == square.objectName()[-2] and int(row) - 2 == int(square.objectName()[-1]))):
-                    possibleAttackSquares.append(square)
+                    possibleAttackSquares.insert(0, square)
         # Anders kunnen ze alleen een stap vooruit
         else:
             for square in allSquares:
