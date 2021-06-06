@@ -5,13 +5,24 @@ from PyQt5.QtCore import QMimeData, Qt
 
 import sys
 import string
-from myRepository.IPASS.Schaakstukken import Rook
 
 
-# Dit is gemaakt met behulp van Qt designer.
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+""" 
+KNOWN BUGS OR MISSING FEATURES
 
+1. Koning kan een schaakstuk aanvallen dat verdedigt wordt
+2. Koning kan niet een aanval verdedigen door iets tussen te zetten tussen de aanvaller en de koning.
+3. Koning kan naar een plaats gaan dat eerst geblokkeerd werd door de koning, maar de koning zou dan nog steeds worden.
+aangevallen. Bijvoorbeeld rook staat op a1. koning op a3. Dan zou de koning naar a4 ook kunnen, maar dit mag natuurlijk
+niet.
+
+"""
+
+# Bijna alles in UI_MAINWINDOW is gemaakt met de tool "Qt Designer"
+# Ik heb alleen de klassen verandert van de schaakstukken.
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -752,6 +763,9 @@ class Ui_MainWindow(object):
         global allSquares
         global blackPieces
         global whitePieces
+        global turnCount
+        global currentBlackPieces
+        global currentWhitePieces
 
         allSquares = [self.squareA1, self.squareA2, self.squareA3, self.squareA4, self.squareA5, self.squareA6, self.squareA7, self.squareA8,
                       self.squareB1, self.squareB2, self.squareB3, self.squareB4, self.squareB5, self.squareB6, self.squareB7, self.squareB8,
@@ -772,12 +786,18 @@ class Ui_MainWindow(object):
                      self.white_knight_b, self.white_knight_g, self.white_bishop_c, self.white_bishop_f,
                      self.white_queen, self.white_king]
 
+        currentBlackPieces = blackPieces.copy()
+
+        currentWhitePieces = whitePieces.copy()
+
+        turnCount = 0
 
 
 # ChessPiece en Square zijn grotendeels gemaakt door https://stackoverflow.com/questions/50232639/drag-and-drop-qlabels-with-pyqt5
 
 
-class ChessPiece(QLabel, allSquares):
+class ChessPiece(QLabel):
+
     def __init__(self, *args, **kwargs):
         QLabel.__init__(self, *args, **kwargs)
         self.setAcceptDrops(True)
@@ -788,23 +808,57 @@ class ChessPiece(QLabel, allSquares):
             event.acceptProposedAction()
 
     def dropEvent(self, event):
+        global turnCount
         temp = []
-        # Hier checken we of een ChessPiece een andere ChessPiece mag aanvallen
-        for square in clickedPieceObject.getLegalMoves(allSquares):
-            # Voeg alle squares toe aan temp die wij kunnen aanvallen.
-            temp.append(square.objectName())
-        if (self.getPosition() in temp):
-            # Als de positie van dat ChessPiece in temp zit, dan kunnen we hem aanvallen. Anders niet.
-            clickedPieceObject.move(self.pos())
-            clickedPieceObject.hasMoved = True
 
-            # self.hide(), self.setParent(None) en anderen werken niet. Daarom gebruik ik self.move om hem weg te
-            # halen van het scherm
-            self.move(-100, -100)
-            event.acceptProposedAction()
+        if (turnCount % 2 == 0) and ("white" in clickedPieceObject.objectName()):
+            # Als de koning wordt aangevallen. Dan moet de koning bewegen of het schaakstuk dat aanvalt, moeten wij
+            # ook aanvallen.
+            if len(whitePieces[-1].underAttack()) != 0 and clickedPieceObject != whitePieces[-1] and clickedPieceObject not in whitePieces[-1].defendKing():
+                print(whitePieces[-1].objectName() + " is under attack!")
+
+            else:
+                # Hier checken we of een ChessPiece een andere ChessPiece mag aanvallen
+                for square in clickedPieceObject.getLegalMoves():
+                    # Voeg alle squares toe aan temp die wij kunnen aanvallen.
+                    temp.append(square.objectName())
+                if (self.getPosition().objectName() in temp):
+                    # Als de positie van dat ChessPiece in temp zit, dan kunnen we hem aanvallen. Anders niet.
+                    clickedPieceObject.move(self.pos())
+                    clickedPieceObject.hasMoved = True
+
+                    # self.hide(), self.setParent(None) en anderen werken niet. Daarom gebruik ik self.move om hem weg te
+                    # halen van het scherm
+                    self.move(-100, -100)
+                    currentBlackPieces.remove(self)
+                    event.acceptProposedAction()
+                    turnCount += 1
+
+                else:
+                    # Als dat niet kan, dan printen we dat het niet kan.
+                    print(clickedPieceObject.objectName() + " can't go to " + self.objectName())
+
+        elif (turnCount % 2 == 1) and ("black" in clickedPieceObject.objectName()):
+
+            if len(blackPieces[-1].underAttack()) != 0 and clickedPieceObject != blackPieces[-1] and clickedPieceObject not in blackPieces[-1].defendKing():
+                print(blackPieces[-1].objectName() + " is under attack!")
+
+            else:
+                for square in clickedPieceObject.getLegalMoves():
+                    temp.append(square.objectName())
+
+                if (self.getPosition().objectName() in temp):
+                    clickedPieceObject.move(self.pos())
+                    clickedPieceObject.hasMoved = True
+                    self.move(-100, -100)
+                    currentWhitePieces.remove(self)
+                    event.acceptProposedAction()
+                    turnCount += 1
+
+                else:
+                    print(clickedPieceObject.objectName() + " can't go to " + self.objectName())
         else:
-            # Als dat niet kan, dan printen we dat het niet kan.
-            print(clickedPieceObject.objectName() + " can't go to " + self.objectName())
+            print("Het is niet jouw beurt!")
 
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -835,7 +889,7 @@ class ChessPiece(QLabel, allSquares):
         global allSquares
         for square in allSquares:
             if self.pos() == square.pos():
-                return square.objectName()
+                return square
 
 
 class Square(QLabel):
@@ -849,12 +903,80 @@ class Square(QLabel):
             event.acceptProposedAction()
 
     def dropEvent(self, event):
-        if (self in clickedPieceObject.getLegalMoves()):
-            clickedPieceObject.move(self.pos())
-            clickedPieceObject.hasMoved = True
-            event.acceptProposedAction()
+        global turnCount
+        if (turnCount % 2 == 0) and ("white" in clickedPieceObject.objectName()):
+
+            if len(whitePieces[-1].underAttack()) != 0 and clickedPieceObject != whitePieces[-1] and clickedPieceObject not in whitePieces[-1].defendKing():
+                print(whitePieces[-1].objectName() + " is under attack!")
+
+            else:
+                # Ik moest de rook ook verplaatsen met de koning wanneer de speler wou castlen.
+                # ik wist niet hoe je dit beter moest doen.
+
+                # Doe dit als castle long en witte koning
+                if (("king" in clickedPieceObject.objectName()) and (allSquares[16] == self) and (clickedPieceObject.hasMoved is False)):
+                    clickedPieceObject.move(self.pos())
+                    clickedPieceObject.hasMoved = True
+                    whitePieces[8].move(allSquares[24].pos())
+                    event.acceptProposedAction()
+                    turnCount += 1
+
+                # Doe dit als castle short en witte koning
+                elif (("king" in clickedPieceObject.objectName()) and (allSquares[48] == self) and (
+                        clickedPieceObject.hasMoved is False)):
+                    clickedPieceObject.move(self.pos())
+                    clickedPieceObject.hasMoved = True
+                    whitePieces[9].move(allSquares[40].pos())
+                    event.acceptProposedAction()
+                    turnCount += 1
+
+                # Doe dit als de moves geen castle moves waren.
+                elif (self in clickedPieceObject.getLegalMoves()):
+                    clickedPieceObject.move(self.pos())
+                    clickedPieceObject.hasMoved = True
+
+                    turnCount += 1
+                    event.acceptProposedAction()
+
+                else:
+                    print(clickedPieceObject.objectName() + " can't go to " + self.objectName())
+
+        elif (turnCount % 2 == 1) and ("black" in clickedPieceObject.objectName()):
+
+            if len(blackPieces[-1].underAttack()) != 0 and clickedPieceObject != blackPieces[-1] and clickedPieceObject not in blackPieces[-1].defendKing():
+                print(blackPieces[-1].objectName() + " is under attack!")
+
+            else:
+                # Doe dit als castle long en zwarte koning
+                if (("king" in clickedPieceObject.objectName()) and (allSquares[23] == self) and (
+                            clickedPieceObject.hasMoved is False)):
+                    clickedPieceObject.move(self.pos())
+                    clickedPieceObject.hasMoved = True
+                    blackPieces[8].move(allSquares[31].pos())
+                    event.acceptProposedAction()
+                    turnCount += 1
+
+                # Doe dit als castle short en zwarte koning
+                elif (("king" in clickedPieceObject.objectName()) and (allSquares[55] == self) and (
+                        clickedPieceObject.hasMoved is False)):
+                    clickedPieceObject.move(self.pos())
+                    clickedPieceObject.hasMoved = True
+                    blackPieces[9].move(allSquares[47].pos())
+                    event.acceptProposedAction()
+                    turnCount += 1
+
+                elif (self in clickedPieceObject.getLegalMoves()):
+                    clickedPieceObject.move(self.pos())
+                    clickedPieceObject.hasMoved = True
+                    turnCount += 1
+                    event.acceptProposedAction()
+
+                else:
+                    print(clickedPieceObject.objectName() + " can't go to " + self.objectName())
         else:
-            print(clickedPieceObject.objectName() + " can't go to " + self.objectName())
+            print("Het is niet jouw beurt!")
+
+
 
     def containsPiece(self):
         # Return een object dat op die square staat. Anders return niks
@@ -864,6 +986,10 @@ class Square(QLabel):
                 return piece
         else:
             return None
+
+    def whiteCastleLong(self):
+        if ("white_king" in clickedPieceObject.objectName() and ("B1" in self.objectName())):
+            allSquares[0].containsPiece().move()
 
 
 class Knight(ChessPiece):
@@ -906,7 +1032,7 @@ class Knight(ChessPiece):
 
     def getAttackSquaresLeftSide(self):
         # Zoekt naar de squares die kunnen worden aangevallen door de knight die links van hem staan
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
@@ -924,7 +1050,7 @@ class Knight(ChessPiece):
 
     def getAttackSquaresAbove(self):
         # Zoekt naar de squares die kunnen worden aangevallen door de knight die boven hem staan
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
@@ -942,7 +1068,7 @@ class Knight(ChessPiece):
 
     def getAttackSquaresRightSide(self):
         # Zoekt naar de squares die kunnen worden aangevallen door de knight die rechts van hem staan
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
@@ -961,7 +1087,7 @@ class Knight(ChessPiece):
 
     def getAttackSquaresBelow(self):
         # Zoekt naar de squares die kunnen worden aangevallen door de knight die onder hem staan
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
@@ -1032,7 +1158,7 @@ class Bishop(ChessPiece):
 
     def getAttackSquaresDiagNE(self):
         # Haalt alle squares die NE (north east) van het ChessPiece zitten.
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
@@ -1060,7 +1186,7 @@ class Bishop(ChessPiece):
 
     def getAttackSquaresDiagNW(self):
         # Haalt alle squares die NW (north west) van het ChessPiece zitten.
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
@@ -1088,7 +1214,7 @@ class Bishop(ChessPiece):
 
     def getAttackSquaresDiagSW(self):
         # Haalt alle squares die NW (south west) van het ChessPiece zitten.
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
@@ -1114,7 +1240,7 @@ class Bishop(ChessPiece):
 
     def getAttackSquaresDiagSE(self):
         # Haalt alle squares die SE (south east) van het ChessPiece zitten.
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
@@ -1140,7 +1266,102 @@ class Bishop(ChessPiece):
         return possibleAttackSquares
 
 
+class Rook(ChessPiece):
+    def getLegalMoves(self):
+        """ Return een lijst met squares die kunnen worden aangevallen rook. """
+        possibleAttackSquares = []
 
+        # Als er niks onder hem staat dan kan de rook ernaar toe, totdat er wel iets staat
+        for square in self.getAttackSquaresUnder():
+            if square.containsPiece() == None:
+                possibleAttackSquares.append(square)
+            else:
+                # Als het stuk van een andere team is, dan kunnen we hem aanvallen.
+                if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    possibleAttackSquares.append(square)
+                    break
+                # Anders doen we niks en stoppen we de loop
+                else:
+                    break
+        # Als er niks boven hem staat dan kan de rook ernaar toe, totdat er wel iets staat
+        for square in self.getAttackSquaresAbove():
+            if square.containsPiece() == None:
+                possibleAttackSquares.append(square)
+            else:
+                if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    possibleAttackSquares.append(square)
+                    break
+                else:
+                    break
+
+        # Als er niks links van hem staat dan kan de rook ernaar toe, totdat er wel iets staat
+        for square in self.getAttackSquaresLeft():
+            if square.containsPiece() == None:
+                possibleAttackSquares.append(square)
+            else:
+                if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    possibleAttackSquares.append(square)
+                    break
+                else:
+                    break
+
+        # Als er niks rechts van hem staat dan kan de rook ernaar toe, totdat er wel iets staat
+        for square in self.getAttackSquaresRight():
+            if square.containsPiece() == None:
+                possibleAttackSquares.append(square)
+            else:
+                if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    possibleAttackSquares.append(square)
+                    break
+                else:
+                    break
+
+        return possibleAttackSquares
+
+
+    def getAttackSquaresUnder(self):
+        # Return een lijst met alle squares die onder het schaakstuk zitten..
+        currentSquare = self.getPosition().objectName()
+        row = currentSquare[-1:]
+        column = currentSquare[-2: -1]
+        possibleAttackSquares = []
+        for square in allSquares:
+            if (column == square.objectName()[-2] and int(row) > int(square.objectName()[-1])):
+                possibleAttackSquares.insert(0, square)
+        return possibleAttackSquares
+
+    def getAttackSquaresAbove(self):
+        # Return een lijst met alle squares die boven het schaakstuk zitten..
+        currentSquare = self.getPosition().objectName()
+        row = currentSquare[-1:]
+        column = currentSquare[-2: -1]
+        possibleAttackSquares = []
+        for square in allSquares:
+            if (column == square.objectName()[-2] and int(row) < int(square.objectName()[-1])):
+                possibleAttackSquares.append(square)
+        return possibleAttackSquares
+
+    def getAttackSquaresRight(self):
+        # Return een lijst met alle squares die rechts van het schaakstuk zitten..
+        currentSquare = self.getPosition().objectName()
+        row = currentSquare[-1:]
+        column = currentSquare[-2: -1]
+        possibleAttackSquares = []
+        for square in allSquares:
+            if (column < square.objectName()[-2] and row == square.objectName()[-1]):
+                possibleAttackSquares.append(square)
+        return possibleAttackSquares
+
+    def getAttackSquaresLeft(self):
+        # Return een lijst met alle squares die links van het schaakstuk zitten..
+        currentSquare = self.getPosition().objectName()
+        row = currentSquare[-1:]
+        column = currentSquare[-2: -1]
+        possibleAttackSquares = []
+        for square in allSquares:
+            if (column > square.objectName()[-2] and row == square.objectName()[-1]):
+                possibleAttackSquares.insert(0, square)
+        return possibleAttackSquares
 
 
 class Queen(Rook, Bishop):
@@ -1160,20 +1381,61 @@ class King(ChessPiece):
     def getLegalMoves(self):
         # Return een lijst met squares waar een koning naartoe kan gaan.
         possibleAttackSquares = []
+
+        # Check hier voor legal moves rond de koning.
         for square in self.getSquaresAroundPiece():
+
+            # Als de square geen schaakstuk bevat, dan checken we of die square wordt aangevallen door een schaakstuk
+            # van het ander team. Als dat true is, dan kunnen we er niet naartoe.
             if square.containsPiece() == None:
-                possibleAttackSquares.append(square)
+                attackingPieces = []
+                if self.objectName()[0:5] == "white":
+                    for piece in currentBlackPieces[:-1]:
+                        # Pawns kunnen sommige plekken aanvallen, maar dat is niet in getlegalMove(). Daarom moet er
+                        # helaas deze if statement komen.
+                        if "pawn" in piece.objectName():
+                            if square in piece.getAttackSquaresDiagonally():
+                                attackingPieces.append(piece)
+                                break
+                        elif square in piece.getLegalMoves():
+                            attackingPieces.append(piece)
+                            break
+
+
+
+                elif self.objectName()[0:5] == "black":
+                    for piece in currentWhitePieces[:-1]:
+                        if square in piece.getLegalMoves():
+                            attackingPieces.append(piece)
+                            break
+                        elif "pawn" in piece.objectName():
+                            if square in piece.getAttackSquaresDiagonally():
+                                attackingPieces.append(piece)
+                                break
+
+                if len(attackingPieces) == 0:
+                    possibleAttackSquares.append(square)
+
             else:
+                supportingPieces = []
                 # Als het stuk van een andere team is, dan kunnen we hem aanvallen.
                 if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
                     possibleAttackSquares.append(square)
-        self.castleLong()
+                    # Helaas kan de koning nu wel iets aanvallen, dat verdedigt wordt door een ander schaakstuk.
+                    # Dit komt omdat piece.legalMoves() niet squares toevoegd, waar schaakstukken opstaan van zijn eigen
+                    # team.
+
+        if self.castleLong() is not None:
+            possibleAttackSquares.append(self.castleLong())
+
+        if self.castleShort() is not None:
+            possibleAttackSquares.append(self.castleShort())
 
         return possibleAttackSquares
 
     def getSquaresAroundPiece(self):
         # Return een lijst met squares die om de koning heen zitten
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         alphabet = string.ascii_uppercase
@@ -1194,9 +1456,62 @@ class King(ChessPiece):
 
     def castleLong(self):
         # Return een square, als castleLong een legal move is.
-        if ("white" in self.objectName()) and (allSquares[0].containsPiece().hasMoved == False):
-            print(allSquares)
-            print(allSquares[0].containsPiece().hasMoved)
+
+        # Als de koning wit is en B1, C1, D1 zijn leeg EN rook_a.hasMoved en koning.hasMoved is False. Dan is castle
+        # long een legal move.
+        if self.hasMoved is False:
+            if ("white" in self.objectName()) and (allSquares[0].containsPiece().hasMoved is False) and \
+                    (allSquares[8].containsPiece() is None) and (allSquares[16].containsPiece() is None) \
+                    and (allSquares[24].containsPiece() is None):
+                return allSquares[16]
+
+        # Als de koning zwart is en B8, C8, D8 zijn leeg EN rook_a.hasMoved en koning.hasMoved is False. Dan is castle
+        # short een legal move
+            elif ("black" in self.objectName()) and (allSquares[7].containsPiece().hasMoved is False) and \
+                    (allSquares[15].containsPiece() is None) and (allSquares[23].containsPiece() is None) \
+                    and (allSquares[31].containsPiece() is None):
+                return allSquares[23]
+
+    def castleShort(self):
+        # Return een square, als castle short een legal move is.
+        if self.hasMoved is False:
+            if ("white" in self.objectName()) and (allSquares[56].containsPiece().hasMoved is False) and \
+                    (allSquares[48].containsPiece() is None) and (allSquares[40].containsPiece() is None):
+                return allSquares[48]
+
+            elif ("black" in self.objectName()) and (allSquares[63].containsPiece().hasMoved is False) and \
+                    (allSquares[55].containsPiece() is None) and (allSquares[47].containsPiece() is None):
+                return allSquares[55]
+
+    # Check of de koning wordt aangevallen en return de piece dat de koning aanvalt.
+    def underAttack(self):
+        attackingPieces = []
+        if "white" in self.objectName():
+            for piece in currentBlackPieces:
+                if self.getPosition() in piece.getLegalMoves():
+                    attackingPieces.append(piece)
+        elif "black" in self.objectName():
+            for piece in currentWhitePieces:
+                if self.getPosition() in piece.getLegalMoves():
+                    attackingPieces.append(piece)
+        return attackingPieces
+
+    def defendKing(self):
+        # Return een lijst met schaakstukken dat een schaakstuk kan aanvallen die op het moment de koning aan het
+        # aanvallen is
+        attackPieces = []
+        if "white" in self.objectName():
+            for whitePiece in currentWhitePieces:
+                for attackingPiece in self.underAttack():
+                    if attackingPiece.getPosition() in whitePiece.getLegalMoves():
+                        attackPieces.append(whitePiece)
+        elif "black" in self.objectName():
+            for blackPiece in currentBlackPieces:
+                for attackingPiece in self.underAttack():
+                    if attackingPiece.getPosition() in blackPiece.getLegalMoves():
+                        attackPieces.append(blackPiece)
+        return attackPieces
+
 
 class WhitePawn(ChessPiece):
     def getLegalMoves(self):
@@ -1211,7 +1526,7 @@ class WhitePawn(ChessPiece):
 
         for square in self.getAttackSquaresDiagonally():
             # Als er iets op de squares zitten, dan kan de pawn hem aanvallen
-            if square.containsPiece() != None:
+            if square.containsPiece() != None and "black" in square.containsPiece().objectName():
                 possibleAttackSquares.append(square)
 
         return possibleAttackSquares
@@ -1219,7 +1534,7 @@ class WhitePawn(ChessPiece):
     def getAttackSquaresDiagonally(self):
         """ Return een lijst van squares die kunnen worden aangevallen. De squares zijn diagonaal van de pawn. De squares
         kunnen alleen twee squares zijn die diagonaal voor hem staan."""
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2:-1]
         possibleAttackSquares = []
@@ -1230,11 +1545,12 @@ class WhitePawn(ChessPiece):
         for square in allSquares:
             if (left in square.objectName()) or (right in square.objectName()):
                 possibleAttackSquares.append(square)
+
         return possibleAttackSquares
 
 
     def getAttackSquaresAbove(self):
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
@@ -1264,7 +1580,7 @@ class BlackPawn(ChessPiece):
 
         for square in self.getAttackSquaresDiagonally():
             # Als er iets op de squares zitten, dan kan de pawn hem aanvallen
-            if square.containsPiece() != None:
+            if square.containsPiece() != None and "white" in square.containsPiece().objectName():
                 possibleAttackSquares.append(square)
 
         return possibleAttackSquares
@@ -1273,7 +1589,7 @@ class BlackPawn(ChessPiece):
     def getAttackSquaresDiagonally(self):
         """ Return een lijst van squares die kunnen worden aangevallen. De squares zijn diagonaal van de pawn. De squares
         kunnen alleen twee squares zijn die diagonaal voor hem staan."""
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2:-1]
         possibleAttackSquares = []
@@ -1287,7 +1603,7 @@ class BlackPawn(ChessPiece):
         return possibleAttackSquares
 
     def getAttackSquaresAbove(self):
-        currentSquare = self.getPosition()
+        currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
@@ -1304,6 +1620,8 @@ class BlackPawn(ChessPiece):
                 if column == square.objectName()[-2] and int(row) - 1 == int(square.objectName()[-1]):
                     possibleAttackSquares.append(square)
         return possibleAttackSquares
+
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
