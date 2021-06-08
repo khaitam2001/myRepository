@@ -15,7 +15,6 @@ KNOWN BUGS OR MISSING FEATURES
 
 # ChessPiece en Square zijn grotendeels gemaakt door https://stackoverflow.com/questions/50232639/drag-and-drop-qlabels-with-pyqt5
 
-
 class ChessPiece(QLabel):
     def __init__(self, *args, **kwargs):
         QLabel.__init__(self, *args, **kwargs)
@@ -613,7 +612,7 @@ class King(ChessPiece):
         # Return een lijst met squares waar een koning naartoe kan gaan.
         possibleAttackSquares = []
 
-        # Check hier voor legal moves rond de koning.
+        # Loop door de squares rond de koning.
         for square in self.getSquaresAroundPiece():
 
             # Als de square geen schaakstuk bevat, dan checken we of die square wordt aangevallen door een schaakstuk
@@ -621,9 +620,10 @@ class King(ChessPiece):
             if square.containsPiece() == None:
                 attackingPieces = []
                 if self.objectName()[0:5] == "white":
+                    # Check hier of zwarte stukken naar die square kunnen gaan.
                     for piece in currentBlackPieces[:-1]:
-                        # Pawns kunnen sommige plekken aanvallen, maar dat is niet in getlegalMove(). Daarom moet er
-                        # helaas deze if statement komen.
+                        # De legal moves van pawn zijn plekken waar de pawn naartoe kunnen, maar niet per se kunnen
+                        # aanvallen. Hiervoor moet ik helaas dus een if voor gebruiken.
                         if "pawn" in piece.objectName():
                             if square in piece.getAttackSquaresDiagonally():
                                 attackingPieces.append(piece)
@@ -631,9 +631,7 @@ class King(ChessPiece):
                         elif square in piece.getLegalMoves():
                             attackingPieces.append(piece)
                             break
-
-
-
+                # Doe hetzelfde, maar dan checken we of de witte stukken het kunnen aanvallen.K
                 elif self.objectName()[0:5] == "black":
                     for piece in currentWhitePieces[:-1]:
                         if square in piece.getLegalMoves():
@@ -688,37 +686,42 @@ class King(ChessPiece):
     def castleLong(self):
         # Return een square, als castleLong een legal move is.
 
-        # Als de koning wit is en B1, C1, D1 zijn leeg EN white_rook_a.hasMoved en koning.hasMoved is False. Dan is
-        # castle long een legal move.
+        # De koning mag niet hebben bewogen voor de castle
         if self.hasMoved is False:
+            # Condities voor een long castle:
+            # 1. A1 is NIET leeg, 2. A1.hasMoved is False, B1 is leeg, 3. C1 is leeg, 4. D1 is leeg, en koning is wit.
             if allSquares[0].containsPiece() is not None:
                 if ("white" in self.objectName()) and (allSquares[0].containsPiece().hasMoved is False) and \
                         (allSquares[8].containsPiece() is None) and (allSquares[16].containsPiece() is None) \
                         and (allSquares[24].containsPiece() is None):
                     return allSquares[16]
 
-        # Als de koning zwart is en B8, C8, D8 zijn leeg EN black_rook_a.hasMoved en koning.hasMoved is False. Dan is
-        # castle short een legal move
+            # Precies dezelfde condities maar nu is het de 8ste rij. Dus B8, C8, D8 en koning is zwart.
             elif allSquares[7].containsPiece() is not None:
                 if ("black" in self.objectName()) and (allSquares[7].containsPiece().hasMoved is False) and \
                         (allSquares[15].containsPiece() is None) and (allSquares[23].containsPiece() is None) \
                         and (allSquares[31].containsPiece() is None):
                     return allSquares[23]
 
+    # Check of castleshort available is
     def castleShort(self):
         # Return een square, als castle short een legal move is.
+        # De koning mag niet hebben bewogen voor de castle.
         if self.hasMoved is False:
+            # Condities voor een short castle:
+            # 1. H1 is NIET leeg, 2. H1.hasMoved is False, G1 is leeg, 3. F1 is leeg en koning is wit.
             if allSquares[56].containsPiece() is not None:
                 if ("white" in self.objectName()) and (allSquares[56].containsPiece().hasMoved is False) and \
                         (allSquares[48].containsPiece() is None) and (allSquares[40].containsPiece() is None):
                     return allSquares[48]
 
+            # Precies dezelfde condities maar nu is het de 8ste rij. Dus H8, G8 en F1 en de koning is zwart.
             elif allSquares[63].containsPiece() is not None:
                 if ("black" in self.objectName()) and (allSquares[63].containsPiece().hasMoved is False) and \
                         (allSquares[55].containsPiece() is None) and (allSquares[47].containsPiece() is None):
                     return allSquares[55]
 
-    # Check of de koning wordt aangevallen en return de piece dat de koning aanvalt.
+    # Check of de koning wordt aangevallen en return de piece(s) dat de koning aanvalt.
     def underAttack(self):
         attackingPieces = []
         if "white" in self.objectName():
@@ -731,27 +734,13 @@ class King(ChessPiece):
                     attackingPieces.append(piece)
         return attackingPieces
 
-    def defendKing(self):
-        # Return een lijst met schaakstukken dat een schaakstuk kan aanvallen die op het moment de koning aan het
-        # aanvallen is
-        attackPieces = []
-        if "white" in self.objectName():
-            for whitePiece in currentWhitePieces:
-                for attackingPiece in self.underAttack():
-                    if attackingPiece.getPosition() in whitePiece.getLegalMoves():
-                        attackPieces.append(whitePiece)
-        elif "black" in self.objectName():
-            for blackPiece in currentBlackPieces:
-                for attackingPiece in self.underAttack():
-                    if attackingPiece.getPosition() in blackPiece.getLegalMoves():
-                        attackPieces.append(blackPiece)
-        return attackPieces
-
 
 class WhitePawn(ChessPiece):
+    # Een white pawn kan naar boven gaan en valt de twee squares aan die diagonaal boven de pawn staan.
     def getLegalMoves(self):
         possibleAttackSquares = []
 
+        # Loop door alle squares boven de pawn
         for square in self.getAttackSquaresAbove():
             # Als er niks voor hem staat kan de pawn vooruit
             if square.containsPiece() == None:
@@ -759,6 +748,7 @@ class WhitePawn(ChessPiece):
             else:
                 break
 
+        # Loop door de twee squares die diagonaal van de pawn zijn.
         for square in self.getAttackSquaresDiagonally():
             # Als er iets op de squares zitten, dan kan de pawn hem aanvallen
             if square.containsPiece() != None and "black" in square.containsPiece().objectName():
@@ -767,8 +757,8 @@ class WhitePawn(ChessPiece):
         return possibleAttackSquares
 
     def getAttackSquaresDiagonally(self):
-        """ Return een lijst van squares die kunnen worden aangevallen. De squares zijn diagonaal van de pawn. De squares
-        kunnen alleen twee squares zijn die diagonaal voor hem staan."""
+        # Return een lijst van squares die kunnen worden aangevallen. De squares zijn diagonaal van de pawn. De squares
+        # kunnen alleen twee squares zijn die diagonaal van hem staan.
         currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2:-1]
@@ -785,27 +775,31 @@ class WhitePawn(ChessPiece):
 
 
     def getAttackSquaresAbove(self):
+        # Return squares die boven de pawn zitten waar de pawn naar toe zou kunnen.
         currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
 
+        # Als de pawn nog niet beweegt heeft, dan mag hij 2 squares omhoog.
         if self.hasMoved == False:
             for square in allSquares:
                 if ((column == square.objectName()[-2] and int(row) + 1 == int(square.objectName()[-1])) or
                         (column == square.objectName()[-2] and int(row) + 2 == int(square.objectName()[-1]))):
                     possibleAttackSquares.append(square)
         else:
+            # Anders mag hij alleen 1 square omhoog
             for square in allSquares:
                 if column == square.objectName()[-2] and int(row) + 1 == int(square.objectName()[-1]):
                     possibleAttackSquares.append(square)
         return possibleAttackSquares
 
 class BlackPawn(ChessPiece):
+    # Een black pawn kan naar beneden gaan en valt de twee squares aan die diagonaal onder de pawn staan.
     def getLegalMoves(self):
         possibleAttackSquares = []
 
-
+        # Loop door alle squares boven de pawn.
         for square in self.getAttackSquaresAbove():
             # Als er niks voor hem staat kan de pawn vooruit
             if square.containsPiece() == None:
@@ -813,8 +807,9 @@ class BlackPawn(ChessPiece):
             else:
                 break
 
+        # Loop door de twee squares die diagonaal van de pawn zijn.
         for square in self.getAttackSquaresDiagonally():
-            # Als er iets op de squares zitten, dan kan de pawn hem aanvallen
+            # Als er iets diagonaal van de pawn staat, dan kan de pawn hem aanvallen
             if square.containsPiece() != None and "white" in square.containsPiece().objectName():
                 possibleAttackSquares.append(square)
 
@@ -822,8 +817,8 @@ class BlackPawn(ChessPiece):
 
 
     def getAttackSquaresDiagonally(self):
-        """ Return een lijst van squares die kunnen worden aangevallen. De squares zijn diagonaal van de pawn. De squares
-        kunnen alleen twee squares zijn die diagonaal voor hem staan."""
+        # Return een lijst van squares die kunnen worden aangevallen. De squares zijn diagonaal van de pawn. De squares
+        # kunnen alleen twee squares zijn die diagonaal van hem staan.
         currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2:-1]
@@ -838,6 +833,7 @@ class BlackPawn(ChessPiece):
         return possibleAttackSquares
 
     def getAttackSquaresAbove(self):
+        # Return de squares boven de pawn, waar de pawn naar toe kan.
         currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
         column = currentSquare[-2: -1]
@@ -857,10 +853,26 @@ class BlackPawn(ChessPiece):
         return possibleAttackSquares
 
 
+class Evaluate():
+    # Return de value van alle witte stukken
+    def whitePieceValue(self):
+        totalValue = 0
+        for piece in whitePieces:
+            totalValue += piece.getValue()
+        return totalValue
+
+    # Return de value van alle zwarte stukken
+    def blackPieceValue(self):
+        totalValue = 0
+        for piece in blackPieces:
+            totalValue += piece.getValue()
+        return totalValue
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 # Bijna alles in UI_MAINWINDOW is gemaakt met de tool "Qt Designer"
-# Ik heb alleen de klassen verandert van de schaakstukken.
+# Ik heb alleen de klassen verandert van de schaakstukken en variabelen toegevoegd aan het einde.
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
