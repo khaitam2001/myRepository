@@ -9,44 +9,67 @@ import string
 """ 
 KNOWN BUGS, MISSING FEATURES OR MISTAKES
 
-1. Er is geen check for checkmate.
+1. Er is geen check for checkmate, dus de game eindigt nooit.
 2. Koning kan castlen terwijl er een stuk van het ander team, het pad aanvalt.
-3. Pawns kunnen niet promoveren naar een queen
-4. Ik gebruik te veel global variabels, hierdoor moet alles in een file zitten. Dit is heel erg onhandig.
+3. Pawns kunnen niet promoveren.
+4. Ik gebruik te veel global variabels, hierdoor moet alles in een file zitten. Dit is heel erg onhandig en 
+onoverzichtelijk.
 
 
 EVALUATION CRITERIA
 
-Isolated pawns -1 (Een pawn dat geïsoleerd is van andere pawns)
-Doubled pawns -1 (Twee pawns op de zelfde file)
-Pawns in center +2 (Pawn zit tussen D4 en E5)
+Pawn Weight +10 (Elke pawn is 10 punten waard) - done
+Isolated pawns -1 per (Een pawn dat geïsoleerd is van andere pawns) - done
+Doubled pawns -1 per (Twee pawns op de zelfde column) - done
+Pawns in center +2 (Pawn zit tussen D4 en E5) - done
+Pawn almost promoting +5 (Pawn op de rij 7 of rij 2) - done
 
-Knight in center +2 (Knight staat tussen D4 en E5)
-Knight near center +1 (Knight staat tussen C4 en F6)
-Knight on the rim -1 (Knight ligt aan de buitenste kant)
+Knight Weight +30 (Elke knight is 30 punten waard) - done
+Knight in center +2 (Knight staat tussen D4 en E5) - done
+Knight near center +1 (Knight staat tussen C4 en F6) - done
+Knight on the rim -1 (Knight ligt aan de buitenste kant) - done
 
-Bishop on long diagonal +2 (Bishop zit op de langste diagonalen)
-Bishop near center +1 (Bishop staat tussen C4 en F6)
-Bishop on the rim -1 (Bishop ligt aan de buitenste kant)
+Bishop Weight +30 (Elke bishop is 30 punten waard) - done
+Bishop on long diagonal +2 (Bishop zit op de langste diagonalen) - done
+Bishop near center +1 (Bishop staat tussen C4 en F6) - done
+Bishop on the rim -1 (Bishop ligt aan de buitenste kant) - done
 
-Rook on openfile +3 (Rook staat op een column zonder pawns)
-Rook on semiopen files +2 (Rook staat op een column met alleen een pawn van de tegenstander)
+Rook Weight +50 (Elke rook is 50 punten waard) - done
+Rook on seventh rank +4 (Rook staat op rij 7) - done
+Rook on openfile +3 (Rook staat op een column zonder pawns) - done
+Rook behind past pawn +4 (Rook staat op dezelfde column achter een past pawn) - done
 
-Queen heeft niet een beste square.
+Queen Weight +90 (Elke queen is 90 punten waard) - done
+Queen and knight exist +2 (Er is een queen en knight) - done
 
-King castle right lost -4 (Koning heeft castle rights verloren)
-King castle made +2 (Koning heeft gecasteld)
-King distance from beginrow -1 per row (Koning is ver weg van de beginrij, waar hij veilig is)
+King Weight +300 (Elke king is 300 punten waard) - done
+King castle right lost -4 (Koning heeft castle rights verloren) - done
+King castle made +3 (Koning heeft gecasteld) - done
+King distance from beginrow -1 per row (Koning krijgt minpunten per rij dat hij weg is van de beginrij) - done
 
 """
 
-# ChessPiece en Square zijn grotendeels gemaakt door https://stackoverflow.com/questions/50232639/drag-and-drop-qlabels-with-pyqt5
+# ChessPiece en Square zijn grotendeels gemaakt door:
+# https://stackoverflow.com/questions/50232639/drag-and-drop-qlabels-with-pyqt5
+
+
+class Board():
+    def __init__(self):
+        self.allSquares
+        self.whitePieces
+        self.blackPieces
+        self.currentWhitePieces
+        self.currentBlackPieces
+        self.turnCount = 0
+
 
 class ChessPiece(QLabel):
+    # Class voor alle schaakstukken
     def __init__(self, *args, **kwargs):
         QLabel.__init__(self, *args, **kwargs)
         self.setAcceptDrops(True)
         self.hasMoved = False
+        self.board
 
     def dragEnterEvent(self, event):
         event.acceptProposedAction()
@@ -54,44 +77,53 @@ class ChessPiece(QLabel):
     def dropEvent(self, event):
         # Doe dit als een chesspiece op een chesspiece valt.
         global turnCount
-        temp = []
 
         if (turnCount % 2 == 0) and ("white" in clickedPieceObject.objectName()):
+
             # Hier checken we of een ChessPiece een andere ChessPiece mag aanvallen
-            for square in clickedPieceObject.getLegalMoves():
-                # Voeg alle squares toe aan temp die wij kunnen aanvallen.
-                temp.append(square.objectName())
-            if (self.getPosition().objectName() in temp):
-                # Als de positie van dat ChessPiece in temp zit, dan kunnen we hem aanvallen. Anders niet.
+            # Als de square in .getLegalMoves() zit, dan kunnen we hem aanvallen
+            if (self.getPosition() in clickedPieceObject.getLegalMoves()):
+
+                # We veranderen de positie van het object dat geclicked is.
                 clickedPiecePreviousPosition = clickedPieceObject.pos()
                 clickedPieceObject.move(self.pos())
-                clickedPieceObject.hasMoved = True
 
-                # Ik hebself.hide(), self.setParent(None) en andere methodes geprobeert om de chesspiece weg te
-                # halen maar die werken niet. Daarom gebruik ik self.move om hem weg te halen van het scherm
+                # Hier halen we het stuk dat wordt aangevallen weg. Ik heb meerdere manieren geprobeerd zoals gezegd op
+                # websites zoals stackoverflow, maar het is mij niet gelukt. Daarom moet ik hem simpel weg verplaatsen
+                # uit het scherm
                 self.move(-100, -100)
                 currentBlackPieces.remove(self)
 
                 # Als de koning wordt aangevallen nadat de move wordt gedaan, dan is de move illegaal.
+                # Dit is niet een goede manier om te checken wat de legal moves zijn van de koning, want dan kunnen we
+                # niet checken voor checkmate. Maar ik wist niet hoe je moest checken wat de legal moves zijn als de
+                # koning in check was.
                 if len(whitePieces[-1].underAttack()) != 0:
                     self.move(clickedPieceObject.pos())
                     clickedPieceObject.move(clickedPiecePreviousPosition)
                     print("King would be under attack!")
                     currentBlackPieces.append(self)
+
+                # Als de koning niet wordt aangevallen nadat de move wordt gedaan, dan gaan updaten we de evaluatie en
+                # geven we de beurt aan de andere persoon.
                 else:
+                    clickedPieceObject.hasMoved = True
                     turnCount += 1
                     evaluationBar.evaluateBoard()
+                    # Als de koning heeft bewogen, dan heeft hij de castleRights verloren.
+                    if "king" in clickedPieceObject.objectName():
+                        self.castleRights = False
                 event.acceptProposedAction()
 
             else:
-                # Als dat niet kan, dan printen we dat het niet kan.
+                # Als een chesspiece niet naar een square kan, dan betekent het dat hij daar niet naar toe kan gaan,
+                # want die square zit niet in .getLegalMoves()
                 print(clickedPieceObject.objectName() + " can't go to " + self.objectName())
 
+        # Precies hetzelfde hier, behalve dan voor zwart.
         elif (turnCount % 2 == 1) and ("black" in clickedPieceObject.objectName()):
-            for square in clickedPieceObject.getLegalMoves():
-                temp.append(square.objectName())
 
-            if (self.getPosition().objectName() in temp):
+            if (self.getPosition() in clickedPieceObject.getLegalMoves()):
                 clickedPiecePreviousPosition = clickedPieceObject.pos()
                 clickedPieceObject.move(self.pos())
                 self.move(-100, -100)
@@ -118,6 +150,9 @@ class ChessPiece(QLabel):
             self.drag_start_position = event.pos()
 
     def mouseMoveEvent(self, event):
+        # Dit gebeurt er als de muis beweegt.
+        # Heel eerlijk gezegd begrijp ik niet zo goed wat hier gebeurt.
+
         if not (event.buttons() & Qt.LeftButton):
             return
         if (event.pos() - self.drag_start_position).manhattanLength() < QApplication.startDragDistance():
@@ -125,9 +160,12 @@ class ChessPiece(QLabel):
         drag = QDrag(self)
         mimedata = QMimeData()
 
+        # Zet het schaakstuk dat beweegt als clickedPieceObject.
+        # Dit zullen we later gebruiken om te bepalen welke schaakstukken we moeten bewegen.
         global clickedPieceObject
         clickedPieceObject = self
 
+        # Dit deel begrijp ik niet zo goed.
         drag.setMimeData(mimedata)
         pixmap = QPixmap(self.size())
         painter = QPainter(pixmap)
@@ -138,7 +176,10 @@ class ChessPiece(QLabel):
         drag.exec_(Qt.CopyAction | Qt.MoveAction)
 
     def getPosition(self):
+        # Return de square waar het schaakstuk op staat
         global allSquares
+
+        # Loop door alle squares om te kijken of de posities hetzelfde zijn.
         for square in allSquares:
             if self.pos() == square.pos():
                 return square
@@ -154,10 +195,14 @@ class Square(QLabel):
         event.acceptProposedAction()
 
     def dropEvent(self, event):
+        # Dit gebeurt er als er iets wordt gedropt op een square.
+
         global turnCount
+
+        # Check wiens beurt het is en welke kleur wordt bewogen.
         if (turnCount % 2 == 0) and ("white" in clickedPieceObject.objectName()):
-            # Ik moest de rook ook verplaatsen met de koning wanneer de speler wou castlen.
-            # ik wist niet hoe je dit beter moest doen.
+            # We hebben hier twee if statements voor de castle. Dit komt omdat ik ook de rook moest bewegen wanneer de
+            # koning wou castlen. Ik wist niet een betere manier om dit te doen.
 
             # Doe dit als castle long en witte koning
             if (("king" in clickedPieceObject.objectName()) and (allSquares[16] == self) and (clickedPieceObject.hasMoved is False)):
@@ -166,6 +211,7 @@ class Square(QLabel):
                 whitePieces[8].move(allSquares[24].pos())
                 event.acceptProposedAction()
                 turnCount += 1
+                clickedPieceObject.hasCastled = True
                 evaluationBar.evaluateBoard()
 
             # Doe dit als castle short en witte koning
@@ -176,26 +222,32 @@ class Square(QLabel):
                 whitePieces[9].move(allSquares[40].pos())
                 event.acceptProposedAction()
                 turnCount += 1
+                clickedPieceObject.hasCastled = True
                 evaluationBar.evaluateBoard()
 
             # Doe dit als de moves geen castle moves waren.
+            # Check hier ook of de square in legalMoves zit.
             elif (self in clickedPieceObject.getLegalMoves()):
 
                 clickedPiecePreviousPosition = clickedPieceObject.pos()
                 clickedPieceObject.move(self.pos())
                 clickedPieceObject.hasMoved = True
 
+                # Dit is hetzelfde als bij Chesspiece met dezelfde redenen en dezelfde flaws.
                 if len(whitePieces[-1].underAttack()) != 0:
                     clickedPieceObject.move(clickedPiecePreviousPosition)
                     print("King would be under attack!")
                 else:
+                    clickedPieceObject.hasMoved = True
                     turnCount += 1
+                    if "king" in clickedPieceObject.objectName():
+                        clickedPieceObject.castleRights = False
                     evaluationBar.evaluateBoard()
                 event.acceptProposedAction()
-
             else:
                 print(clickedPieceObject.objectName() + " can't go to " + self.objectName())
 
+        # Dit is precies hetzelfde, maar dan met zwart.
         elif (turnCount % 2 == 1) and ("black" in clickedPieceObject.objectName()):
             # Nog maals weet ik niet een betere manier om te castlen.
 
@@ -207,6 +259,7 @@ class Square(QLabel):
                 blackPieces[8].move(allSquares[31].pos())
                 event.acceptProposedAction()
                 turnCount += 1
+                clickedPieceObject.hasCastled = True
                 evaluationBar.evaluateBoard()
 
             # Doe dit als castle short en zwarte koning
@@ -217,6 +270,7 @@ class Square(QLabel):
                 blackPieces[9].move(allSquares[47].pos())
                 event.acceptProposedAction()
                 turnCount += 1
+                clickedPieceObject.hasCastled = True
                 evaluationBar.evaluateBoard()
 
             elif (self in clickedPieceObject.getLegalMoves()):
@@ -230,14 +284,14 @@ class Square(QLabel):
                 else:
                     clickedPieceObject.hasMoved = True
                     turnCount += 1
+                    if "king" in clickedPieceObject.objectName():
+                        clickedPieceObject.castleRights = False
                     evaluationBar.evaluateBoard()
 
             else:
                 print(clickedPieceObject.objectName() + " can't go to " + self.objectName())
         else:
             print("Het is niet jouw beurt!")
-
-
 
     def containsPiece(self):
         # Return een object dat op die square staat. Anders return niks
@@ -248,16 +302,16 @@ class Square(QLabel):
         else:
             return None
 
-    def whiteCastleLong(self):
-        if ("white_king" in clickedPieceObject.objectName() and ("B1" in self.objectName())):
-            allSquares[0].containsPiece().move()
-
 
 class Knight(ChessPiece):
     # De knight heeft een unieke patroon. Hij kan twee squares naar voren en dan naar links of rechts gaan.
     # Het maakt niet uit voor de knight of er iets staat op zijn pad.
 
     def getLegalMoves(self):
+        # NOTE = Er is een veel efficientere manier om dit te doen. Helaas kwam ik hier later pas achter, dus voorlopig
+        # laat ik het staan. Als ik nog tijd heb later, dan verbeter ik dit. (Het kan echt VEEL efficienter, alles is nu
+        # brute force)
+
         # Return een lijst met squares die kunnen worden aangevallen door een knight
         possibleAttackSquares = []
 
@@ -400,9 +454,36 @@ class Knight(ChessPiece):
 
 class Bishop(ChessPiece):
     # De bishop kan diagonaal aanvallen.
+    def getLegalMoves2(self):
+        attackAbleSquares = []
+        beginSquareIndex = 0
+
+        for square in allSquares:
+            if self.getPosition() == square:
+                break
+            else:
+                beginSquareIndex += 1
+
+        index = 0
+
+        while 8 > int(allSquares[beginSquareIndex + index * 9].objectName()[-1]) > 1 and \
+            "H" > allSquares[beginSquareIndex + index * 9].objectName()[-2] > "A":
+
+            index += 1
+            if allSquares[beginSquareIndex + index * 9].containsPiece() is None:
+                attackAbleSquares.append(allSquares[beginSquareIndex + index * 9].objectName())
+            else:
+                if allSquares[beginSquareIndex + index * 9].containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    attackAbleSquares.append(allSquares[beginSquareIndex + index * 9].objectName())
+                    break
+                else:
+                    break
+
+        return attackAbleSquares
 
     def getLegalMoves(self):
-        """ Return een lijst met squares die kunnen worden aangevallen door een bishop"""
+        # NOTE: Ook hier kan het veel efficienter.
+        # Return een lijst met squares die kunnen worden aangevallen door een bishop
         possibleAttackSquares = []
 
         for square in self.getAttackSquaresDiagNE():
@@ -418,6 +499,7 @@ class Bishop(ChessPiece):
                 else:
                     # Als het van je eigen team is, kan je hem niet aanvallen en dus doen we niks.
                     break
+
 
         for square in self.getAttackSquaresDiagNW():
             if square.containsPiece() == None:
@@ -450,6 +532,36 @@ class Bishop(ChessPiece):
                     break
 
         return possibleAttackSquares
+
+    def getAttackSquaresDiagNEBetter(self):
+        # Ik moet hier nog meer aan werken. Dit zal een betere versie zijn dan de vorige met minder lines.
+        # Haalt alle squares die NE (north east) van het ChessPiece kunnen worden aangevallen.
+        attackAbleSquares = []
+        beginSquareIndex = 0
+
+        # Vind de index van de beginsquare.
+        for square in allSquares:
+            if self.getPosition() == square:
+                break
+            else:
+                beginSquareIndex += 1
+
+        # Zoek hier de square die rechts boven
+        index = 0
+        while 8 > int(allSquares[beginSquareIndex + index * 9].objectName()[-1]) > 1 and \
+            "H" > allSquares[beginSquareIndex + index * 9].objectName()[-2] > "A":
+
+            index += 1
+            if allSquares[beginSquareIndex + index * 9].containsPiece() is None:
+                attackAbleSquares.append(allSquares[beginSquareIndex + index * 9].objectName())
+            else:
+                if allSquares[beginSquareIndex + index * 9].containsPiece().objectName()[0:5] != self.objectName()[0:5]:
+                    attackAbleSquares.append(allSquares[beginSquareIndex + index * 9].objectName())
+                    break
+                else:
+                    break
+
+        return attackAbleSquares
 
     def getAttackSquaresDiagNE(self):
         # Haalt alle squares die NE (north east) van het ChessPiece zitten.
@@ -602,7 +714,7 @@ class Bishop(ChessPiece):
 
 class Rook(ChessPiece):
     def getLegalMoves(self):
-        """ Return een lijst met squares die kunnen worden aangevallen rook. """
+        # Return een lijst met squares die kunnen worden aangevallen door de rook.
         possibleAttackSquares = []
 
         # Als er niks onder hem staat dan kan de rook ernaar toe, totdat er wel iets staat
@@ -657,7 +769,7 @@ class Rook(ChessPiece):
         # Return een lijst met alle squares die onder het schaakstuk zitten.
         currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
-        column = currentSquare[-2: -1]
+        column = currentSquare[-2]
         possibleAttackSquares = []
         for square in allSquares:
             if (column == square.objectName()[-2] and int(row) > int(square.objectName()[-1])):
@@ -668,7 +780,7 @@ class Rook(ChessPiece):
         # Return een lijst met alle squares die boven het schaakstuk zitten.
         currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
-        column = currentSquare[-2: -1]
+        column = currentSquare[-2]
         possibleAttackSquares = []
         for square in allSquares:
             if (column == square.objectName()[-2] and int(row) < int(square.objectName()[-1])):
@@ -679,7 +791,7 @@ class Rook(ChessPiece):
         # Return een lijst met alle squares die rechts van het schaakstuk zitten.
         currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
-        column = currentSquare[-2: -1]
+        column = currentSquare[-2]
         possibleAttackSquares = []
         for square in allSquares:
             if (column < square.objectName()[-2] and row == square.objectName()[-1]):
@@ -690,16 +802,69 @@ class Rook(ChessPiece):
         # Return een lijst met alle squares die links van het schaakstuk zitten.
         currentSquare = self.getPosition().objectName()
         row = currentSquare[-1:]
-        column = currentSquare[-2: -1]
+        column = currentSquare[-2]
         possibleAttackSquares = []
         for square in allSquares:
             if (column > square.objectName()[-2] and row == square.objectName()[-1]):
                 possibleAttackSquares.insert(0, square)
         return possibleAttackSquares
 
+    def openFile(self):
+        # Return een boolean gebaseerd op of de rook op een openFile is of niet.
+        # Een open file is een column zonder pawns.
+        column = self.getPosition().objectName()[-2]
+        # Loop door alle squares
+        for square in allSquares:
+            # Als de square dezelfde column is als de column van de rook dan checken we of er een pawn is.
+            if column == square.objectName()[-2]:
+                # Als het schaakstuk niks bevat dan checken we niks verder
+                if square.containsPiece() is not None:
+                    # Als het wel iets bevat kijken of we het een pawn is.
+                    if ("pawn" in square.containsPiece().objectName()):
+                            return False
+        return True
+
+    def protectingPastPawn(self):
+        # Returnt een boolean gebaseerd op of de rook een past pawn aan het beschermen is.
+        currentColumn = self.getPosition().objectName()[-2]
+
+        # Als de rook wit is, dan moeten we checken of er een pawn staat op de 7de rij EN we moeten checken of de rook
+        # er achter staat.
+        if "white" in self.objectName():
+            for square in allSquares:
+                # Zoek naar de square met dezelfde column en de rij 7
+                if square.objectName()[-2] == currentColumn and square.objectName()[-1] == "7" and square.containsPiece() is not None:
+                    if "white_pawn" in square.containsPiece().objectName() and int(self.getPosition().objectName()[-1]) < 7:
+                        return True
+                    else:
+                        break
+
+        elif "black" in self.objectName():
+            for square in allSquares:
+                # Zoek naar de square met dezelfde column en de rij 1
+                if square.objectName()[-2] == currentColumn and square.objectName()[-1] == "2" and square.containsPiece() is not None:
+                    if "black_pawn" in square.containsPiece().objectName() and int(self.getPosition().objectName()[-1]) > 2:
+                        return True
+                    else:
+                        break
+        return False
+
     def getValue(self):
         rookWeight = 50
-        return rookWeight
+        rookPositionWeight = 0
+
+        # Als de rook op de 7de rij staat, dan krijgt hij extra punten
+        if self.getPosition().objectName()[-2] == "7":
+            rookPositionWeight += 4
+
+        # Als de rook op een open file staat, dan krijgt hij +3 punten
+        elif self.openFile() is True:
+            rookPositionWeight += 3
+
+        elif self.protectingPastPawn() is True:
+            rookPositionWeight += 5
+
+        return rookWeight + rookPositionWeight
 
 
 class Queen(Rook, Bishop):
@@ -717,11 +882,30 @@ class Queen(Rook, Bishop):
         return possibleAttackSquares
 
     def getValue(self):
-        queenValue = 90
-        return queenValue
+        # Return de waarde van het schaakstuk
+        queenWeight = 90
+        queenPositionWeight = 0
+
+        # Als er een knight en queen bestaan, dan krijgt de queen +2 punten.
+        if "white" in self.objectName():
+            for piece in currentWhitePieces:
+                if "knight" in piece.objectName():
+                    queenPositionWeight += 2
+        elif "black" in self.objectName():
+            for piece in currentBlackPieces:
+                if "knight" in piece.objectName():
+                    queenPositionWeight += 2
+
+        return queenWeight + queenPositionWeight
 
 
 class King(ChessPiece):
+    def __init__(self, *args, **kwargs):
+        QLabel.__init__(self, *args, **kwargs)
+        self.setAcceptDrops(True)
+        self.hasMoved = False
+        self.castleRights = True
+        self.hasCastled = False
 
     # De koning is het meest belangrijke stuk. De koning kan 1 square om zich heen bewegen en heeft toegang tot
     # de move "castling". Hier zitten wel restricties op.
@@ -766,7 +950,6 @@ class King(ChessPiece):
 
             # Als er wel een schaakstuk op die plek staat dan moeten we checken of het schaakstuk van ons is of niet
             else:
-
                 # Als het stuk van een andere team is, dan kunnen we hem aanvallen.
                 if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
                     possibleAttackSquares.append(square)
@@ -826,7 +1009,7 @@ class King(ChessPiece):
     def castleShort(self):
         # Return een square, als castle short een legal move is.
         # De koning mag niet hebben bewogen voor de castle.
-        if self.hasMoved is False:
+        if self.castleRights is True:
             # Condities voor een short castle:
             # 1. H1 is NIET leeg, 2. H1.hasMoved is False, G1 is leeg, 3. F1 is leeg en koning is wit.
             if allSquares[56].containsPiece() is not None:
@@ -861,25 +1044,23 @@ class King(ChessPiece):
         # Doe dit als de koning zwart is.
         if "black" in self.objectName():
 
-            # Als de koning heeft gecastled, dan krijgen ze extra punten hiervoor.
-            if "B8" in self.getPosition().objectName() or "G8" in self.getPosition().objectName():
-                kingPositionWeight = 4
-
-            else:
-                # Voor elke rij dat de koning onder de begin rij is, wordt een een punt afgetrokken.
-                row = int(self.getPosition().objectName()[-1])
-                kingPositionWeight = 3 - (8 - row)
+            # Voor elke rij dat de koning onder de begin rij is, wordt een een punt afgetrokken.
+            row = int(self.getPosition().objectName()[-1])
+            kingPositionWeight = 3 - (8 - row)
 
         elif "white" in self.objectName():
 
-            # Als de koning heeft gecasteld, dan krijgen ze extra punten.
-            if "B1" in self.getPosition().objectName() or "G1" in self.getPosition().objectName():
-                kingPositionWeight = 4
+            # Voor elke rij dat de koning boven de beginrij is, wordt er een punt afgetrokken.
+            row = int(self.getPosition().objectName()[-1])
+            kingPositionWeight = 3 - row + 1
 
-            else:
-                # Voor elke rij dat de koning boven de beginrij is, wordt er een punt afgetrokken.
-                row = int(self.getPosition().objectName()[-1])
-                kingPositionWeight = 3 - row + 1
+        # Check hier of castle is gedaan.
+        if self.hasCastled is True:
+            kingPositionWeight += 3
+
+        # Check hier of castle rights verloren zijn
+        elif self.castleRights is False and self.hasCastled is False:
+            kingPositionWeight -= 4
 
         score = kingWeight + kingPositionWeight
         return score
@@ -944,9 +1125,71 @@ class WhitePawn(ChessPiece):
                     possibleAttackSquares.append(square)
         return possibleAttackSquares
 
+    def checkIsolatedPawns(self):
+        # Returnt een boolean dat bepaalt of de pawn geisoleerd is of niet.
+        # Geisoleerde pawns zijn pawns die geen pawns naast hun hebben.
+
+        # Maak een lijst met huidige pawns
+        currentPawns = []
+        for piece in currentWhitePieces:
+            if "pawn" in piece.objectName():
+                currentPawns.append(piece)
+
+        # Zet de huidige naam van de column van de pawn als currentColumn
+        currentColumn = self.getPosition().objectName()[-2]
+
+        # Zoek door alle pawns heen. Als ze naast de pawn zitten, dan is hij niet geisoleerd.
+        for pawn in currentPawns:
+            # Als er een pawn naast de pawn staat, dan is hij niet geisoleerd
+            if pawn.getPosition().objectName()[-2] == string.ascii_uppercase[string.ascii_uppercase.find(currentColumn) - 1]\
+                    or pawn.getPosition().objectName()[-2] == string.ascii_uppercase[string.ascii_uppercase.find(currentColumn) + 1]:
+                return False
+        # Als ze door de hele loop zijn gegaan en ze kunnen geen pawn vinden dat naast hun staat, dan is hij geisoleerd
+        return True
+
+    def checkDoubledPawns(self):
+        # Returnt een boolean gebaseerd op of de pawn een deel is van een paar doubled pawns.
+        # Een doubled pawn zijn twee pawns op dezelfde column.
+
+        # Maak een lijst met huidige pawns
+        currentPawns = []
+        for piece in currentWhitePieces:
+            if "pawn" in piece.objectName():
+                currentPawns.append(piece)
+
+        # Zet de huidige naam van de column van de pawn als currentColumn
+        currentColumn = self.getPosition().objectName()[-2]
+
+        # Loop door alle pawns
+        for pawn in currentPawns:
+            # Als de pawn op dezelfde column zit als een andere pawn, dan is hij doubled.
+            if pawn.getPosition().objectName()[-2] == currentColumn and self != pawn:
+                return True
+        return False
+
     def getValue(self):
         whitePawnWeight = 10
-        return whitePawnWeight
+
+        # Als de pawn tussen D4 en E5 zit, dan krijgt hij extra punten
+        if ("D" <= self.getPosition().objectName()[-2] <= "E") and (4 <= int(self.getPosition().objectName()[-1]) <= 5):
+            pawnPositionWeight = 2
+        # Als de pawn bijna promoveert krijgt hij ook extra punten.
+        elif "7" == self.getPosition().objectName()[-1]:
+            pawnPositionWeight = 5
+
+        # Op elke andere plek krijgen ze geen extra punten.
+        else:
+            pawnPositionWeight = 0
+
+        # Als de pawn geisoleerd is dan krijgt hij -1 punt.
+        if self.checkIsolatedPawns() is True:
+            pawnPositionWeight -= 1
+
+        # Als de pawn doubled is dan krijgt hij -1 punt.
+        if self.checkDoubledPawns() is True:
+            pawnPositionWeight -= 1
+
+        return whitePawnWeight + pawnPositionWeight
 
 
 class BlackPawn(ChessPiece):
@@ -1007,9 +1250,71 @@ class BlackPawn(ChessPiece):
                     possibleAttackSquares.append(square)
         return possibleAttackSquares
 
+    def checkIsolatedPawns(self):
+        # Returnt een boolean dat bepaalt of de pawn geisoleerd is of niet.
+
+        # Maak een lijst met huidige pawns
+        currentPawns = []
+        for piece in currentBlackPieces:
+            if "pawn" in piece.objectName():
+                currentPawns.append(piece)
+
+        # Zet de huidige naam van de column van de pawn als currentColumn
+        currentColumn = self.getPosition().objectName()[-2]
+
+        # Zoek door alle pawns heen. Als ze naast de pawn zitten, dan is hij niet geisoleerd.
+        for pawn in currentPawns:
+            # Als er een pawn is dat naast hun staat, is hij niet geisoleerd
+            if pawn.getPosition().objectName()[-2] == string.ascii_uppercase[string.ascii_uppercase.find(currentColumn) - 1]\
+                    or pawn.getPosition().objectName()[-2] == string.ascii_uppercase[string.ascii_uppercase.find(currentColumn) + 1]:
+                return False
+        # Als ze door de hele loop zijn gegaan en ze kunnen geen pawn vinden dat naast hun staat, dan is hij geisoleerd
+        return True
+
+    def checkDoubledPawns(self):
+        # Returnt een boolean als de pawn een deel is van een doubled pawns.
+        # Een doubled pawn zijn twee pawns op dezelfde column.
+
+        # Maak een lijst met huidige pawns
+        currentPawns = []
+        for piece in currentBlackPieces:
+            if "pawn" in piece.objectName():
+                currentPawns.append(piece)
+
+        # Zet de huidige naam van de column van de pawn als currentColumn
+        currentColumn = self.getPosition().objectName()[-2]
+
+        # Loop door alle pawns
+        for pawn in currentPawns:
+            # Als de pawn op dezelfde column zit als een andere pawn, dan is hij doubled.
+            if pawn.getPosition().objectName()[-2] == currentColumn and self != pawn:
+                return True
+        return False
+
     def getValue(self):
         blackPawnWeight = 10
-        return blackPawnWeight
+
+        # Als de pawn tussen D4 en E5 zit, dan krijgt hij extra punten
+        if ("D" <= self.getPosition().objectName()[-2] <= "E") and (4 <= int(self.getPosition().objectName()[-1]) <= 5):
+            pawnPositionWeight = 2
+
+        # Als de pawn bijna promoveert krijgt hij ook extra punten.
+        elif "2" == self.getPosition().objectName()[-1]:
+            pawnPositionWeight = 5
+
+        # Op elke andere plek krijgen ze geen extra punten.
+        else:
+            pawnPositionWeight = 0
+
+        # Als de pawn geisoleerd is dan krijgt hij -1 punt.
+        if self.checkIsolatedPawns() is True:
+            pawnPositionWeight -= 1
+
+        # Als de pawn doubled is dan krijgt hij -1 punt.
+        if self.checkDoubledPawns() is True:
+            pawnPositionWeight -= 1
+
+        return blackPawnWeight + pawnPositionWeight
 
 
 class Evaluate(QLabel):
@@ -1712,11 +2017,6 @@ class Ui_MainWindow(object):
         turnCount = 0
 
         evaluationBar = self.evaluationbar
-
-
-
-
-
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
