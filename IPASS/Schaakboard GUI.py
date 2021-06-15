@@ -55,21 +55,36 @@ King distance from beginrow -1 per row (Koning krijgt minpunten per rij dat hij 
 
 class Board():
     def __init__(self):
-        self.allSquares
-        self.whitePieces
-        self.blackPieces
-        self.currentWhitePieces
-        self.currentBlackPieces
+        self.allSquares = []
+        self.whitePieces = []
+        self.blackPieces = []
+        self.currentWhitePieces = []
+        self.currentBlackPieces = []
         self.turnCount = 0
+        self.evaluationBar = 0
+
+    def setAllSquares(self, allSquares):
+        self.allSquares = allSquares
+
+    def setWhitePieces(self, whitePieces):
+        self.whitePieces = whitePieces
+        self.currentWhitePieces = whitePieces
+
+    def setBlackPieces(self, blackPieces):
+        self.blackPieces = blackPieces
+        self.currentBlackPieces = blackPieces
+
+    def setEvalBar(self, evaluationBar):
+        self.evaluationBar = evaluationBar
 
 
 class ChessPiece(QLabel):
     # Class voor alle schaakstukken
-    def __init__(self, *args, **kwargs):
-        QLabel.__init__(self, *args, **kwargs)
+    def __init__(self, *args, board):
+        QLabel.__init__(self, *args)
         self.setAcceptDrops(True)
         self.hasMoved = False
-        self.board
+        self.board = board
 
     def dragEnterEvent(self, event):
         event.acceptProposedAction()
@@ -187,9 +202,10 @@ class ChessPiece(QLabel):
 
 class Square(QLabel):
     # Dit is de class voor alle squares. Bijvoorbeeld de square A1
-    def __init__(self, *args, **kwargs):
-        QLabel.__init__(self, *args, **kwargs)
+    def __init__(self, *args, board):
+        QLabel.__init__(self, *args)
         self.setAcceptDrops(True)
+        self.board = board
 
     def dragEnterEvent(self, event):
         event.acceptProposedAction()
@@ -900,12 +916,13 @@ class Queen(Rook, Bishop):
 
 
 class King(ChessPiece):
-    def __init__(self, *args, **kwargs):
-        QLabel.__init__(self, *args, **kwargs)
+    def __init__(self, *args, board):
+        QLabel.__init__(self, *args)
         self.setAcceptDrops(True)
         self.hasMoved = False
         self.castleRights = True
         self.hasCastled = False
+        self.board = board
 
     # De koning is het meest belangrijke stuk. De koning kan 1 square om zich heen bewegen en heeft toegang tot
     # de move "castling". Hier zitten wel restricties op.
@@ -1318,8 +1335,9 @@ class BlackPawn(ChessPiece):
 
 
 class Evaluate(QLabel):
-    def __init__(self, *args, **kwargs):
-        QLabel.__init__(self, *args, **kwargs)
+    def __init__(self, *args, board):
+        QLabel.__init__(self, *args)
+        self.board = board
 
     # Return de value van alle witte stukken
     def whitePieceValue(self):
@@ -1348,292 +1366,293 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 840)
+        board = Board()
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
-        self.evaluationbar = Evaluate(self.centralwidget)
+        self.evaluationbar = Evaluate(self.centralwidget, board=board)
         self.evaluationbar.setGeometry(QtCore.QRect(350, 800, 100, 20))
         self.evaluationbar.setText("Evaluation: ")
         self.evaluationbar.setObjectName("evaluationBar")
         self.evaluationbar.setStyleSheet("border: 1px solid black;")
         self.evaluationbar.raise_()
-        self.squareA1 = Square(self.centralwidget)
+        self.squareA1 = Square(self.centralwidget, board=board)
         self.squareA1.setGeometry(QtCore.QRect(0, 700, 101, 101))
         self.squareA1.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareA1.setObjectName("squareA1")
-        self.squareA2 = Square(self.centralwidget)
+        self.squareA2 = Square(self.centralwidget, board=board)
         self.squareA2.setGeometry(QtCore.QRect(0, 600, 101, 101))
         self.squareA2.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareA2.setObjectName("squareA2")
-        self.squareA3 = Square(self.centralwidget)
+        self.squareA3 = Square(self.centralwidget, board=board)
         self.squareA3.setGeometry(QtCore.QRect(0, 500, 101, 101))
         self.squareA3.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareA3.setObjectName("squareA3")
-        self.squareA4 = Square(self.centralwidget)
+        self.squareA4 = Square(self.centralwidget, board=board)
         self.squareA4.setGeometry(QtCore.QRect(0, 400, 101, 101))
         self.squareA4.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareA4.setObjectName("squareA4")
-        self.squareA5 = Square(self.centralwidget)
+        self.squareA5 = Square(self.centralwidget, board=board)
         self.squareA5.setGeometry(QtCore.QRect(0, 300, 101, 101))
         self.squareA5.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareA5.setObjectName("squareA5")
-        self.squareA6 = Square(self.centralwidget)
+        self.squareA6 = Square(self.centralwidget, board=board)
         self.squareA6.setGeometry(QtCore.QRect(0, 200, 101, 101))
         self.squareA6.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareA6.setObjectName("squareA6")
-        self.squareA7 = Square(self.centralwidget)
+        self.squareA7 = Square(self.centralwidget, board=board)
         self.squareA7.setGeometry(QtCore.QRect(0, 100, 101, 101))
         self.squareA7.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareA7.setObjectName("squareA7")
-        self.squareA8 = Square(self.centralwidget)
+        self.squareA8 = Square(self.centralwidget, board=board)
         self.squareA8.setGeometry(QtCore.QRect(0, 0, 101, 101))
         self.squareA8.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareA8.setObjectName("squareA8")
         self.aColumn = QtWidgets.QLabel(self.centralwidget)
         self.aColumn.setGeometry(QtCore.QRect(91, 780, 20, 21))
         self.aColumn.setObjectName("aColumn")
-        self.squareB8 = Square(self.centralwidget)
+        self.squareB8 = Square(self.centralwidget, board=board)
         self.squareB8.setGeometry(QtCore.QRect(100, 0, 101, 101))
         self.squareB8.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareB8.setObjectName("squareB8")
-        self.squareB3 = Square(self.centralwidget)
+        self.squareB3 = Square(self.centralwidget, board=board)
         self.squareB3.setGeometry(QtCore.QRect(100, 500, 101, 101))
         self.squareB3.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareB3.setObjectName("squareB3")
-        self.squareB4 = Square(self.centralwidget)
+        self.squareB4 = Square(self.centralwidget, board=board)
         self.squareB4.setGeometry(QtCore.QRect(100, 400, 101, 101))
         self.squareB4.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareB4.setObjectName("squareB4")
-        self.squareB2 = Square(self.centralwidget)
+        self.squareB2 = Square(self.centralwidget, board=board)
         self.squareB2.setGeometry(QtCore.QRect(100, 600, 101, 101))
         self.squareB2.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareB2.setObjectName("squareB2")
-        self.squareB5 = Square(self.centralwidget)
+        self.squareB5 = Square(self.centralwidget, board=board)
         self.squareB5.setGeometry(QtCore.QRect(100, 300, 101, 101))
         self.squareB5.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareB5.setObjectName("squareB5")
         self.bColumn = QtWidgets.QLabel(self.centralwidget)
         self.bColumn.setGeometry(QtCore.QRect(190, 780, 21, 21))
         self.bColumn.setObjectName("bColumn")
-        self.squareB6 = Square(self.centralwidget)
+        self.squareB6 = Square(self.centralwidget, board=board)
         self.squareB6.setGeometry(QtCore.QRect(100, 200, 101, 101))
         self.squareB6.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareB6.setObjectName("squareB6")
-        self.squareB7 = Square(self.centralwidget)
+        self.squareB7 = Square(self.centralwidget, board=board)
         self.squareB7.setGeometry(QtCore.QRect(100, 100, 101, 101))
         self.squareB7.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareB7.setObjectName("squareB7")
-        self.squareB1 = Square(self.centralwidget)
+        self.squareB1 = Square(self.centralwidget, board=board)
         self.squareB1.setGeometry(QtCore.QRect(100, 700, 101, 101))
         self.squareB1.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareB1.setObjectName("squareB1")
-        self.squareC5 = Square(self.centralwidget)
+        self.squareC5 = Square(self.centralwidget, board=board)
         self.squareC5.setGeometry(QtCore.QRect(200, 300, 101, 101))
         self.squareC5.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareC5.setObjectName("squareC5")
-        self.squareC4 = Square(self.centralwidget)
+        self.squareC4 = Square(self.centralwidget, board=board)
         self.squareC4.setGeometry(QtCore.QRect(200, 400, 101, 101))
         self.squareC4.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareC4.setObjectName("squareC4")
-        self.squareC1 = Square(self.centralwidget)
+        self.squareC1 = Square(self.centralwidget, board=board)
         self.squareC1.setGeometry(QtCore.QRect(200, 700, 101, 101))
         self.squareC1.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareC1.setObjectName("squareC1")
-        self.squareC3 = Square(self.centralwidget)
+        self.squareC3 = Square(self.centralwidget, board=board)
         self.squareC3.setGeometry(QtCore.QRect(200, 500, 101, 101))
         self.squareC3.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareC3.setObjectName("squareC3")
-        self.squareC6 = Square(self.centralwidget)
+        self.squareC6 = Square(self.centralwidget, board=board)
         self.squareC6.setGeometry(QtCore.QRect(200, 200, 101, 101))
         self.squareC6.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareC6.setObjectName("squareC6")
         self.cColumn = QtWidgets.QLabel(self.centralwidget)
         self.cColumn.setGeometry(QtCore.QRect(290, 780, 20, 21))
         self.cColumn.setObjectName("cColumn")
-        self.squareC7 = Square(self.centralwidget)
+        self.squareC7 = Square(self.centralwidget, board=board)
         self.squareC7.setGeometry(QtCore.QRect(200, 100, 101, 101))
         self.squareC7.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareC7.setObjectName("squareC7")
-        self.squareC8 = Square(self.centralwidget)
+        self.squareC8 = Square(self.centralwidget, board=board)
         self.squareC8.setGeometry(QtCore.QRect(200, 0, 101, 101))
         self.squareC8.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareC8.setObjectName("squareC8")
-        self.squareC2 = Square(self.centralwidget)
+        self.squareC2 = Square(self.centralwidget, board=board)
         self.squareC2.setGeometry(QtCore.QRect(200, 600, 101, 101))
         self.squareC2.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareC2.setObjectName("squareC2")
-        self.squareD6 = Square(self.centralwidget)
+        self.squareD6 = Square(self.centralwidget, board=board)
         self.squareD6.setGeometry(QtCore.QRect(300, 200, 101, 101))
         self.squareD6.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareD6.setObjectName("squareD6")
-        self.squareD7 = Square(self.centralwidget)
+        self.squareD7 = Square(self.centralwidget, board=board)
         self.squareD7.setGeometry(QtCore.QRect(300, 100, 101, 101))
         self.squareD7.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareD7.setObjectName("squareD7")
-        self.squareD5 = Square(self.centralwidget)
+        self.squareD5 = Square(self.centralwidget, board=board)
         self.squareD5.setGeometry(QtCore.QRect(300, 300, 101, 101))
         self.squareD5.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareD5.setObjectName("squareD5")
-        self.squareD1 = Square(self.centralwidget)
+        self.squareD1 = Square(self.centralwidget, board=board)
         self.squareD1.setGeometry(QtCore.QRect(300, 700, 101, 101))
         self.squareD1.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareD1.setObjectName("squareD1")
-        self.squareD3 = Square(self.centralwidget)
+        self.squareD3 = Square(self.centralwidget, board=board)
         self.squareD3.setGeometry(QtCore.QRect(300, 500, 101, 101))
         self.squareD3.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareD3.setObjectName("squareD3")
-        self.squareD4 = Square(self.centralwidget)
+        self.squareD4 = Square(self.centralwidget, board=board)
         self.squareD4.setGeometry(QtCore.QRect(300, 400, 101, 101))
         self.squareD4.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareD4.setObjectName("squareD4")
-        self.squareD2 = Square(self.centralwidget)
+        self.squareD2 = Square(self.centralwidget, board=board)
         self.squareD2.setGeometry(QtCore.QRect(300, 600, 101, 101))
         self.squareD2.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareD2.setObjectName("squareD2")
-        self.squareD8 = Square(self.centralwidget)
+        self.squareD8 = Square(self.centralwidget, board=board)
         self.squareD8.setGeometry(QtCore.QRect(300, 0, 101, 101))
         self.squareD8.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareD8.setObjectName("squareD8")
         self.dColumn = QtWidgets.QLabel(self.centralwidget)
         self.dColumn.setGeometry(QtCore.QRect(390, 780, 16, 21))
         self.dColumn.setObjectName("dColumn")
-        self.squareE8 = Square(self.centralwidget)
+        self.squareE8 = Square(self.centralwidget, board=board)
         self.squareE8.setGeometry(QtCore.QRect(400, 0, 101, 101))
         self.squareE8.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareE8.setObjectName("squareE8")
-        self.squareE2 = Square(self.centralwidget)
+        self.squareE2 = Square(self.centralwidget, board=board)
         self.squareE2.setGeometry(QtCore.QRect(400, 600, 101, 101))
         self.squareE2.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareE2.setObjectName("squareE2")
-        self.squareE6 = Square(self.centralwidget)
+        self.squareE6 = Square(self.centralwidget, board=board)
         self.squareE6.setGeometry(QtCore.QRect(400, 200, 101, 101))
         self.squareE6.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareE6.setObjectName("squareE6")
-        self.squareE7 = Square(self.centralwidget)
+        self.squareE7 = Square(self.centralwidget, board=board)
         self.squareE7.setGeometry(QtCore.QRect(400, 100, 101, 101))
         self.squareE7.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareE7.setObjectName("squareE7")
-        self.squareE1 = Square(self.centralwidget)
+        self.squareE1 = Square(self.centralwidget, board=board)
         self.squareE1.setGeometry(QtCore.QRect(400, 700, 101, 101))
         self.squareE1.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareE1.setObjectName("squareE1")
-        self.squareE3 = Square(self.centralwidget)
+        self.squareE3 = Square(self.centralwidget, board=board)
         self.squareE3.setGeometry(QtCore.QRect(400, 500, 101, 101))
         self.squareE3.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareE3.setObjectName("squareE3")
-        self.squareE5 = Square(self.centralwidget)
+        self.squareE5 = Square(self.centralwidget, board=board)
         self.squareE5.setGeometry(QtCore.QRect(400, 300, 101, 101))
         self.squareE5.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareE5.setObjectName("squareE5")
         self.eColumn = QtWidgets.QLabel(self.centralwidget)
         self.eColumn.setGeometry(QtCore.QRect(490, 780, 20, 21))
         self.eColumn.setObjectName("eColumn")
-        self.squareE4 = Square(self.centralwidget)
+        self.squareE4 = Square(self.centralwidget, board=board)
         self.squareE4.setGeometry(QtCore.QRect(400, 400, 101, 101))
         self.squareE4.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareE4.setObjectName("squareE4")
-        self.squareF2 = Square(self.centralwidget)
+        self.squareF2 = Square(self.centralwidget, board=board)
         self.squareF2.setGeometry(QtCore.QRect(500, 600, 101, 101))
         self.squareF2.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareF2.setObjectName("squareF2")
-        self.squareF6 = Square(self.centralwidget)
+        self.squareF6 = Square(self.centralwidget, board=board)
         self.squareF6.setGeometry(QtCore.QRect(500, 200, 101, 101))
         self.squareF6.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareF6.setObjectName("squareF6")
-        self.squareF7 = Square(self.centralwidget)
+        self.squareF7 = Square(self.centralwidget, board=board)
         self.squareF7.setGeometry(QtCore.QRect(500, 100, 101, 101))
         self.squareF7.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareF7.setObjectName("squareF7")
-        self.squareF5 = Square(self.centralwidget)
+        self.squareF5 = Square(self.centralwidget, board=board)
         self.squareF5.setGeometry(QtCore.QRect(500, 300, 101, 101))
         self.squareF5.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareF5.setObjectName("squareF5")
-        self.squareF4 = Square(self.centralwidget)
+        self.squareF4 = Square(self.centralwidget, board=board)
         self.squareF4.setGeometry(QtCore.QRect(500, 400, 101, 101))
         self.squareF4.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareF4.setObjectName("squareF4")
-        self.squareF1 = Square(self.centralwidget)
+        self.squareF1 = Square(self.centralwidget, board=board)
         self.squareF1.setGeometry(QtCore.QRect(500, 700, 101, 101))
         self.squareF1.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareF1.setObjectName("squareF1")
-        self.squareF8 = Square(self.centralwidget)
+        self.squareF8 = Square(self.centralwidget, board=board)
         self.squareF8.setGeometry(QtCore.QRect(500, 0, 101, 101))
         self.squareF8.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareF8.setObjectName("squareF8")
-        self.squareF3 = Square(self.centralwidget)
+        self.squareF3 = Square(self.centralwidget, board=board)
         self.squareF3.setGeometry(QtCore.QRect(500, 500, 101, 101))
         self.squareF3.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareF3.setObjectName("squareF3")
         self.fColumn = QtWidgets.QLabel(self.centralwidget)
         self.fColumn.setGeometry(QtCore.QRect(590, 780, 21, 21))
         self.fColumn.setObjectName("fColumn")
-        self.squareG8 = Square(self.centralwidget)
+        self.squareG8 = Square(self.centralwidget, board=board)
         self.squareG8.setGeometry(QtCore.QRect(600, 0, 101, 101))
         self.squareG8.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareG8.setObjectName("squareG8")
-        self.squareG4 = Square(self.centralwidget)
+        self.squareG4 = Square(self.centralwidget, board=board)
         self.squareG4.setGeometry(QtCore.QRect(600, 400, 101, 101))
         self.squareG4.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareG4.setObjectName("squareG4")
-        self.squareG1 = Square(self.centralwidget)
+        self.squareG1 = Square(self.centralwidget, board=board)
         self.squareG1.setGeometry(QtCore.QRect(600, 700, 101, 101))
         self.squareG1.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareG1.setObjectName("squareG1")
-        self.squareG5 = Square(self.centralwidget)
+        self.squareG5 = Square(self.centralwidget, board=board)
         self.squareG5.setGeometry(QtCore.QRect(600, 300, 101, 101))
         self.squareG5.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareG5.setObjectName("squareG5")
-        self.squareG3 = Square(self.centralwidget)
+        self.squareG3 = Square(self.centralwidget, board=board)
         self.squareG3.setGeometry(QtCore.QRect(600, 500, 101, 101))
         self.squareG3.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareG3.setObjectName("squareG3")
         self.gColumn = QtWidgets.QLabel(self.centralwidget)
         self.gColumn.setGeometry(QtCore.QRect(690, 770, 21, 31))
         self.gColumn.setObjectName("gColumn")
-        self.squareG2 = Square(self.centralwidget)
+        self.squareG2 = Square(self.centralwidget, board=board)
         self.squareG2.setGeometry(QtCore.QRect(600, 600, 101, 101))
         self.squareG2.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareG2.setObjectName("squareG2")
-        self.squareG6 = Square(self.centralwidget)
+        self.squareG6 = Square(self.centralwidget, board=board)
         self.squareG6.setGeometry(QtCore.QRect(600, 200, 101, 101))
         self.squareG6.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareG6.setObjectName("squareG6")
-        self.squareG7 = Square(self.centralwidget)
+        self.squareG7 = Square(self.centralwidget, board=board)
         self.squareG7.setGeometry(QtCore.QRect(600, 100, 101, 101))
         self.squareG7.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareG7.setObjectName("squareG7")
-        self.squareH5 = Square(self.centralwidget)
+        self.squareH5 = Square(self.centralwidget, board=board)
         self.squareH5.setGeometry(QtCore.QRect(700, 300, 101, 101))
         self.squareH5.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareH5.setObjectName("squareH5")
-        self.squareH6 = Square(self.centralwidget)
+        self.squareH6 = Square(self.centralwidget, board=board)
         self.squareH6.setGeometry(QtCore.QRect(700, 200, 101, 101))
         self.squareH6.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareH6.setObjectName("squareH6")
-        self.squareH3 = Square(self.centralwidget)
+        self.squareH3 = Square(self.centralwidget, board=board)
         self.squareH3.setGeometry(QtCore.QRect(700, 500, 101, 101))
         self.squareH3.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareH3.setObjectName("squareH3")
-        self.squareH8 = Square(self.centralwidget)
+        self.squareH8 = Square(self.centralwidget, board=board)
         self.squareH8.setGeometry(QtCore.QRect(700, 0, 101, 101))
         self.squareH8.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareH8.setObjectName("squareH8")
-        self.squareH7 = Square(self.centralwidget)
+        self.squareH7 = Square(self.centralwidget, board=board)
         self.squareH7.setGeometry(QtCore.QRect(700, 100, 101, 101))
         self.squareH7.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareH7.setObjectName("squareH7")
-        self.squareH1 = Square(self.centralwidget)
+        self.squareH1 = Square(self.centralwidget, board=board)
         self.squareH1.setGeometry(QtCore.QRect(700, 700, 101, 101))
         self.squareH1.setPixmap(QtGui.QPixmap("Images/white_square.png"))
         self.squareH1.setObjectName("squareH1")
         self.hColumn = QtWidgets.QLabel(self.centralwidget)
         self.hColumn.setGeometry(QtCore.QRect(790, 780, 21, 21))
         self.hColumn.setObjectName("hColumn")
-        self.squareH2 = Square(self.centralwidget)
+        self.squareH2 = Square(self.centralwidget, board=board)
         self.squareH2.setGeometry(QtCore.QRect(700, 600, 101, 101))
         self.squareH2.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareH2.setObjectName("squareH2")
-        self.squareH4 = Square(self.centralwidget)
+        self.squareH4 = Square(self.centralwidget, board=board)
         self.squareH4.setGeometry(QtCore.QRect(700, 400, 101, 101))
         self.squareH4.setPixmap(QtGui.QPixmap("Images/green_square.png"))
         self.squareH4.setObjectName("squareH4")
@@ -1661,131 +1680,131 @@ class Ui_MainWindow(object):
         self.row8 = QtWidgets.QLabel(self.centralwidget)
         self.row8.setGeometry(QtCore.QRect(0, 0, 21, 21))
         self.row8.setObjectName("row8")
-        self.white_pawn_a = WhitePawn(self.centralwidget)
+        self.white_pawn_a = WhitePawn(self.centralwidget, board=board)
         self.white_pawn_a.setGeometry(QtCore.QRect(0, 600, 101, 101))
         self.white_pawn_a.setPixmap(QtGui.QPixmap("Images/white_pawn.png"))
         self.white_pawn_a.setObjectName("white_pawn_a")
-        self.white_pawn_b = WhitePawn(self.centralwidget)
+        self.white_pawn_b = WhitePawn(self.centralwidget, board=board)
         self.white_pawn_b.setGeometry(QtCore.QRect(100, 600, 101, 101))
         self.white_pawn_b.setPixmap(QtGui.QPixmap("Images/white_pawn.png"))
         self.white_pawn_b.setObjectName("white_pawn_b")
-        self.white_pawn_c = WhitePawn(self.centralwidget)
+        self.white_pawn_c = WhitePawn(self.centralwidget, board=board)
         self.white_pawn_c.setGeometry(QtCore.QRect(200, 600, 101, 101))
         self.white_pawn_c.setPixmap(QtGui.QPixmap("Images/white_pawn.png"))
         self.white_pawn_c.setObjectName("white_pawn_c")
-        self.white_pawn_d = WhitePawn(self.centralwidget)
+        self.white_pawn_d = WhitePawn(self.centralwidget, board=board)
         self.white_pawn_d.setGeometry(QtCore.QRect(300, 600, 101, 101))
         self.white_pawn_d.setPixmap(QtGui.QPixmap("Images/white_pawn.png"))
         self.white_pawn_d.setObjectName("white_pawn_d")
-        self.white_pawn_e = WhitePawn(self.centralwidget)
+        self.white_pawn_e = WhitePawn(self.centralwidget, board=board)
         self.white_pawn_e.setGeometry(QtCore.QRect(400, 600, 101, 101))
         self.white_pawn_e.setPixmap(QtGui.QPixmap("Images/white_pawn.png"))
         self.white_pawn_e.setObjectName("white_pawn_e")
-        self.white_pawn_f = WhitePawn(self.centralwidget)
+        self.white_pawn_f = WhitePawn(self.centralwidget, board=board)
         self.white_pawn_f.setGeometry(QtCore.QRect(500, 600, 101, 101))
         self.white_pawn_f.setPixmap(QtGui.QPixmap("Images/white_pawn.png"))
         self.white_pawn_f.setObjectName("white_pawn_f")
-        self.white_pawn_g = WhitePawn(self.centralwidget)
+        self.white_pawn_g = WhitePawn(self.centralwidget, board=board)
         self.white_pawn_g.setGeometry(QtCore.QRect(600, 600, 101, 101))
         self.white_pawn_g.setPixmap(QtGui.QPixmap("Images/white_pawn.png"))
         self.white_pawn_g.setObjectName("white_pawn_g")
-        self.white_pawn_h = WhitePawn(self.centralwidget)
+        self.white_pawn_h = WhitePawn(self.centralwidget, board=board)
         self.white_pawn_h.setGeometry(QtCore.QRect(700, 600, 101, 101))
         self.white_pawn_h.setPixmap(QtGui.QPixmap("Images/white_pawn.png"))
         self.white_pawn_h.setObjectName("white_pawn_h")
-        self.white_rook_a = Rook(self.centralwidget)
+        self.white_rook_a = Rook(self.centralwidget, board=board)
         self.white_rook_a.setGeometry(QtCore.QRect(0, 700, 101, 101))
         self.white_rook_a.setPixmap(QtGui.QPixmap("Images/white_rook.png"))
         self.white_rook_a.setObjectName("white_rook_a")
-        self.white_rook_h = Rook(self.centralwidget)
+        self.white_rook_h = Rook(self.centralwidget, board=board)
         self.white_rook_h.setGeometry(QtCore.QRect(700, 700, 101, 101))
         self.white_rook_h.setPixmap(QtGui.QPixmap("Images/white_rook.png"))
         self.white_rook_h.setObjectName("white_rook_h")
-        self.white_knight_b = Knight(self.centralwidget)
+        self.white_knight_b = Knight(self.centralwidget, board=board)
         self.white_knight_b.setGeometry(QtCore.QRect(100, 700, 101, 101))
         self.white_knight_b.setPixmap(QtGui.QPixmap("Images/white_knight.png"))
         self.white_knight_b.setObjectName("white_knight_b")
-        self.white_knight_g = Knight(self.centralwidget)
+        self.white_knight_g = Knight(self.centralwidget, board=board)
         self.white_knight_g.setGeometry(QtCore.QRect(600, 700, 101, 101))
         self.white_knight_g.setPixmap(QtGui.QPixmap("Images/white_knight.png"))
         self.white_knight_g.setObjectName("white_knight_g")
-        self.white_bishop_c = Bishop(self.centralwidget)
+        self.white_bishop_c = Bishop(self.centralwidget, board=board)
         self.white_bishop_c.setGeometry(QtCore.QRect(200, 700, 101, 101))
         self.white_bishop_c.setPixmap(QtGui.QPixmap("Images/white_bishop.png"))
         self.white_bishop_c.setObjectName("white_bishop_c")
-        self.white_bishop_f = Bishop(self.centralwidget)
+        self.white_bishop_f = Bishop(self.centralwidget, board=board)
         self.white_bishop_f.setGeometry(QtCore.QRect(500, 700, 101, 101))
         self.white_bishop_f.setPixmap(QtGui.QPixmap("Images/white_bishop.png"))
         self.white_bishop_f.setObjectName("white_bishop_f")
-        self.white_queen = Queen(self.centralwidget)
+        self.white_queen = Queen(self.centralwidget, board=board)
         self.white_queen.setGeometry(QtCore.QRect(300, 700, 101, 101))
         self.white_queen.setPixmap(QtGui.QPixmap("Images/white_queen.png"))
         self.white_queen.setObjectName("white_queen")
-        self.white_king = King(self.centralwidget)
+        self.white_king = King(self.centralwidget, board=board)
         self.white_king.setGeometry(QtCore.QRect(400, 700, 101, 101))
         self.white_king.setPixmap(QtGui.QPixmap("Images/white_king.png"))
         self.white_king.setObjectName("white_king")
-        self.black_pawn_a = BlackPawn(self.centralwidget)
+        self.black_pawn_a = BlackPawn(self.centralwidget, board=board)
         self.black_pawn_a.setGeometry(QtCore.QRect(0, 100, 101, 101))
         self.black_pawn_a.setPixmap(QtGui.QPixmap("Images/black_pawn.png"))
         self.black_pawn_a.setObjectName("black_pawn_a")
-        self.black_pawn_b = BlackPawn(self.centralwidget)
+        self.black_pawn_b = BlackPawn(self.centralwidget, board=board)
         self.black_pawn_b.setGeometry(QtCore.QRect(100, 100, 101, 101))
         self.black_pawn_b.setPixmap(QtGui.QPixmap("Images/black_pawn.png"))
         self.black_pawn_b.setObjectName("black_pawn_b")
-        self.black_pawn_c = BlackPawn(self.centralwidget)
+        self.black_pawn_c = BlackPawn(self.centralwidget, board=board)
         self.black_pawn_c.setGeometry(QtCore.QRect(200, 100, 101, 101))
         self.black_pawn_c.setPixmap(QtGui.QPixmap("Images/black_pawn.png"))
         self.black_pawn_c.setObjectName("black_pawn_c")
-        self.black_pawn_d = BlackPawn(self.centralwidget)
+        self.black_pawn_d = BlackPawn(self.centralwidget, board=board)
         self.black_pawn_d.setGeometry(QtCore.QRect(300, 100, 101, 101))
         self.black_pawn_d.setPixmap(QtGui.QPixmap("Images/black_pawn.png"))
         self.black_pawn_d.setObjectName("black_pawn_d")
-        self.black_pawn_e = BlackPawn(self.centralwidget)
+        self.black_pawn_e = BlackPawn(self.centralwidget, board=board)
         self.black_pawn_e.setGeometry(QtCore.QRect(400, 100, 101, 101))
         self.black_pawn_e.setPixmap(QtGui.QPixmap("Images/black_pawn.png"))
         self.black_pawn_e.setObjectName("black_pawn_e")
-        self.black_pawn_f = BlackPawn(self.centralwidget)
+        self.black_pawn_f = BlackPawn(self.centralwidget, board=board)
         self.black_pawn_f.setGeometry(QtCore.QRect(500, 100, 101, 101))
         self.black_pawn_f.setPixmap(QtGui.QPixmap("Images/black_pawn.png"))
         self.black_pawn_f.setObjectName("black_pawn_f")
-        self.black_pawn_g = BlackPawn(self.centralwidget)
+        self.black_pawn_g = BlackPawn(self.centralwidget, board=board)
         self.black_pawn_g.setGeometry(QtCore.QRect(600, 100, 101, 101))
         self.black_pawn_g.setPixmap(QtGui.QPixmap("Images/black_pawn.png"))
         self.black_pawn_g.setObjectName("black_pawn_g")
-        self.black_pawn_h = BlackPawn(self.centralwidget)
+        self.black_pawn_h = BlackPawn(self.centralwidget, board=board)
         self.black_pawn_h.setGeometry(QtCore.QRect(700, 100, 101, 101))
         self.black_pawn_h.setPixmap(QtGui.QPixmap("Images/black_pawn.png"))
         self.black_pawn_h.setObjectName("black_pawn_h")
-        self.black_rook_a = Rook(self.centralwidget)
+        self.black_rook_a = Rook(self.centralwidget, board=board)
         self.black_rook_a.setGeometry(QtCore.QRect(0, 0, 101, 101))
         self.black_rook_a.setPixmap(QtGui.QPixmap("Images/black_rook.png"))
         self.black_rook_a.setObjectName("black_rook_a")
-        self.black_rook_h = Rook(self.centralwidget)
+        self.black_rook_h = Rook(self.centralwidget, board=board)
         self.black_rook_h.setGeometry(QtCore.QRect(700, 0, 101, 101))
         self.black_rook_h.setPixmap(QtGui.QPixmap("Images/black_rook.png"))
         self.black_rook_h.setObjectName("black_rook_h")
-        self.black_knight_b = Knight(self.centralwidget)
+        self.black_knight_b = Knight(self.centralwidget, board=board)
         self.black_knight_b.setGeometry(QtCore.QRect(100, 0, 101, 101))
         self.black_knight_b.setPixmap(QtGui.QPixmap("Images/black_knight.png"))
         self.black_knight_b.setObjectName("black_knight_b")
-        self.black_knight_g = Knight(self.centralwidget)
+        self.black_knight_g = Knight(self.centralwidget, board=board)
         self.black_knight_g.setGeometry(QtCore.QRect(600, 0, 101, 101))
         self.black_knight_g.setPixmap(QtGui.QPixmap("Images/black_knight.png"))
         self.black_knight_g.setObjectName("black_knight_g")
-        self.black_bishop_c = Bishop(self.centralwidget)
+        self.black_bishop_c = Bishop(self.centralwidget, board=board)
         self.black_bishop_c.setGeometry(QtCore.QRect(200, 0, 101, 101))
         self.black_bishop_c.setPixmap(QtGui.QPixmap("Images/black_bishop.png"))
         self.black_bishop_c.setObjectName("black_bishop_c")
-        self.black_bishop_f = Bishop(self.centralwidget)
+        self.black_bishop_f = Bishop(self.centralwidget, board=board)
         self.black_bishop_f.setGeometry(QtCore.QRect(500, 0, 101, 101))
         self.black_bishop_f.setPixmap(QtGui.QPixmap("Images/black_bishop.png"))
         self.black_bishop_f.setObjectName("black_bishop_f")
-        self.black_queen = Queen(self.centralwidget)
+        self.black_queen = Queen(self.centralwidget, board=board)
         self.black_queen.setGeometry(QtCore.QRect(300, 0, 101, 101))
         self.black_queen.setPixmap(QtGui.QPixmap("Images/black_queen.png"))
         self.black_queen.setObjectName("black_queen")
-        self.black_king = King(self.centralwidget)
+        self.black_king = King(self.centralwidget, board=board)
         self.black_king.setGeometry(QtCore.QRect(400, 0, 101, 101))
         self.black_king.setPixmap(QtGui.QPixmap("Images/black_king.png"))
         self.black_king.setObjectName("black_king")
@@ -1913,6 +1932,27 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        board.setAllSquares([self.squareA1, self.squareA2, self.squareA3, self.squareA4, self.squareA5, self.squareA6, self.squareA7, self.squareA8,
+                      self.squareB1, self.squareB2, self.squareB3, self.squareB4, self.squareB5, self.squareB6, self.squareB7, self.squareB8,
+                      self.squareC1, self.squareC2, self.squareC3, self.squareC4, self.squareC5, self.squareC6, self.squareC7, self.squareC8,
+                      self.squareD1, self.squareD2, self.squareD3, self.squareD4, self.squareD5, self.squareD6, self.squareD7, self.squareD8,
+                      self.squareE1, self.squareE2, self.squareE3, self.squareE4, self.squareE5, self.squareE6, self.squareE7, self.squareE8,
+                      self.squareF1, self.squareF2, self.squareF3, self.squareF4, self.squareF5, self.squareF6, self.squareF7, self.squareF8,
+                      self.squareG1, self.squareG2, self.squareG3, self.squareG4, self.squareG5, self.squareG6, self.squareG7, self.squareG8,
+                      self.squareH1, self.squareH2, self.squareH3, self.squareH4, self.squareH5, self.squareH6, self.squareH7, self.squareH8])
+
+        board.setBlackPieces([self.black_pawn_a, self.black_pawn_b, self.black_pawn_c, self.black_pawn_d, self.black_pawn_e,
+                     self.black_pawn_f, self.black_pawn_g, self.black_pawn_h, self.black_rook_a, self.black_rook_h,
+                     self.black_knight_b, self.black_knight_g, self.black_bishop_c, self.black_bishop_f,
+                     self.black_queen, self.black_king])
+
+        board.setWhitePieces([self.white_pawn_a, self.white_pawn_b, self.white_pawn_c, self.white_pawn_d, self.white_pawn_e,
+                     self.white_pawn_f, self.white_pawn_g, self.white_pawn_h, self.white_rook_a, self.white_rook_h,
+                     self.white_knight_b, self.white_knight_g, self.white_bishop_c, self.white_bishop_f,
+                     self.white_queen, self.white_king])
+
+        board.setEvalBar(evaluationBar)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -1983,40 +2023,8 @@ class Ui_MainWindow(object):
 
         # Ik weet niet hoe ik dit zou moeten doen zonder global
 
-        global allSquares
-        global blackPieces
-        global whitePieces
-        global turnCount
-        global currentBlackPieces
-        global currentWhitePieces
-        global evaluationBar
 
-        allSquares = [self.squareA1, self.squareA2, self.squareA3, self.squareA4, self.squareA5, self.squareA6, self.squareA7, self.squareA8,
-                      self.squareB1, self.squareB2, self.squareB3, self.squareB4, self.squareB5, self.squareB6, self.squareB7, self.squareB8,
-                      self.squareC1, self.squareC2, self.squareC3, self.squareC4, self.squareC5, self.squareC6, self.squareC7, self.squareC8,
-                      self.squareD1, self.squareD2, self.squareD3, self.squareD4, self.squareD5, self.squareD6, self.squareD7, self.squareD8,
-                      self.squareE1, self.squareE2, self.squareE3, self.squareE4, self.squareE5, self.squareE6, self.squareE7, self.squareE8,
-                      self.squareF1, self.squareF2, self.squareF3, self.squareF4, self.squareF5, self.squareF6, self.squareF7, self.squareF8,
-                      self.squareG1, self.squareG2, self.squareG3, self.squareG4, self.squareG5, self.squareG6, self.squareG7, self.squareG8,
-                      self.squareH1, self.squareH2, self.squareH3, self.squareH4, self.squareH5, self.squareH6, self.squareH7, self.squareH8]
 
-        blackPieces = [self.black_pawn_a, self.black_pawn_b, self.black_pawn_c, self.black_pawn_d, self.black_pawn_e,
-                     self.black_pawn_f, self.black_pawn_g, self.black_pawn_h, self.black_rook_a, self.black_rook_h,
-                     self.black_knight_b, self.black_knight_g, self.black_bishop_c, self.black_bishop_f,
-                     self.black_queen, self.black_king]
-
-        whitePieces = [self.white_pawn_a, self.white_pawn_b, self.white_pawn_c, self.white_pawn_d, self.white_pawn_e,
-                     self.white_pawn_f, self.white_pawn_g, self.white_pawn_h, self.white_rook_a, self.white_rook_h,
-                     self.white_knight_b, self.white_knight_g, self.white_bishop_c, self.white_bishop_f,
-                     self.white_queen, self.white_king]
-
-        currentBlackPieces = blackPieces.copy()
-
-        currentWhitePieces = whitePieces.copy()
-
-        turnCount = 0
-
-        evaluationBar = self.evaluationbar
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
