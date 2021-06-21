@@ -7,10 +7,6 @@ class Knight(ChessPiece):
     # Het maakt niet uit voor de knight of er iets staat op zijn pad.
 
     def getLegalMoves(self):
-        # NOTE = Er is een veel efficientere manier om dit te doen. Helaas kwam ik hier later pas achter, dus voorlopig
-        # laat ik het staan. Als ik nog tijd heb later, dan verbeter ik dit. (Het kan echt VEEL efficienter, alles is nu
-        # brute force)
-
         # Return een lijst met squares die kunnen worden aangevallen door een knight
         possibleAttackSquares = []
 

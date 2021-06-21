@@ -26,9 +26,12 @@ class Queen(Rook, Bishop):
             for piece in self.board.currentWhitePieces:
                 if "knight" in piece.objectName():
                     queenPositionWeight += 2
+                    break
+
         elif "black" in self.objectName():
             for piece in self.board.currentBlackPieces:
                 if "knight" in piece.objectName():
                     queenPositionWeight += 2
+                    break
 
         return queenWeight + queenPositionWeight

@@ -2,6 +2,10 @@ from PyQt5.QtWidgets import QLabel
 import sys
 
 
+# ChessPiece en Square zijn grotendeels gemaakt door:
+# https://stackoverflow.com/questions/50232639/drag-and-drop-qlabels-with-pyqt5
+
+
 class Square(QLabel):
     # Dit is de class voor alle squares. Bijvoorbeeld de square A1
     def __init__(self, *args, board):
@@ -17,6 +21,7 @@ class Square(QLabel):
 
         # Check wiens beurt het is en welke kleur wordt bewogen.
         if (self.board.turnCount % 2 == 0) and ("white" in self.board.clickedChessPiece.objectName()):
+
             # We hebben hier twee if statements voor de castle. Dit komt omdat ik ook de rook moest bewegen wanneer de
             # koning wou castlen. Ik wist niet een betere manier om dit te doen.
 
@@ -136,6 +141,7 @@ class Square(QLabel):
 
             else:
                 print(self.board.clickedChessPiece.objectName() + " can't go to " + self.objectName())
+
         else:
             print("Het is niet jouw beurt!")
 

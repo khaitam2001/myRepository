@@ -1,4 +1,5 @@
 class Board():
+    # Een class om alle relevante informatie op te slaan.
     def __init__(self):
         self.allSquares = []
         self.whitePieces = []

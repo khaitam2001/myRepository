@@ -6,25 +6,26 @@ class Bishop(ChessPiece):
     # De bishop kan diagonaal aanvallen.
 
     def getLegalMoves(self):
-        # NOTE: Ook hier kan het veel efficienter.
         # Return een lijst met squares die kunnen worden aangevallen door een bishop
         possibleAttackSquares = []
 
+        # Loop door alle squares die North East van het schaakstuk zit.
         for square in self.getAttackSquaresDiagNE():
+            # Als er niks op die square staat, dan kan de bishop er naartoe.
             if square.containsPiece() == None:
                 possibleAttackSquares.append(square)
+            # Als er wel iets op die square staak, dan moeten we kijken of het van het andere team is of niet.
             else:
-                # Als er een stuk staat op die plek, dan moeten we kijken of het een witte stuk is of een zwarte stuk
+                # Check hier of het van hetzelfde team is of niet.
                 if square.containsPiece().objectName()[0:5] != self.objectName()[0:5]:
-                    # Als het van een andere team is, dan voegen we hem toe aan de mogelijke squares die we kunnen
-                    # aanvallen.
+                    # Als het niet hetzelfde team is, dan mogen we hem aanvallen en stoppen we de loop
                     possibleAttackSquares.append(square)
                     break
                 else:
                     # Als het van je eigen team is, kan je hem niet aanvallen en dus doen we niks.
                     break
 
-
+        # Doe dit voor North West, South West en South East.
         for square in self.getAttackSquaresDiagNW():
             if square.containsPiece() == None:
                 possibleAttackSquares.append(square)
@@ -166,11 +167,11 @@ class Bishop(ChessPiece):
         return possibleAttackSquares
 
     def bishopLongdiagonal(self):
-        # Returnt een boolean dat bepaalt of de bishop op de long diagonal zit of niet.
+        # Returnt een boolean dat bepaalt of de bishop op de "long diagonal" zit of niet.
 
         # Dit is de diagonaal van links beneden naar rechts boven.
         for i in range(8):
-            # Als de positie van de bishop hierop ligt, dan geven we hem extra punten.
+            # Als de positie van de bishop op de long diagonal zit, return True
             if self.pos() == self.board.allSquares[0 + i * 9]:
                 return True
 
@@ -178,6 +179,7 @@ class Bishop(ChessPiece):
         for i in range(8):
             if self.pos() == self.board.allSquares[7 + i * 7]:
                 return True
+
         # Als ze er niet op zitten, dan return false.
         return False
 

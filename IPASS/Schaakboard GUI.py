@@ -13,10 +13,9 @@ from myRepository.IPASS.EvaluationBar import Evaluate
 
 
 """ 
-KNOWN BUGS, MISSING FEATURES OR MISTAKES
+KNOWN BUGS OR MISSING FEATURES
 
-1. Koning kan castlen terwijl er een stuk van het ander team, het pad aanvalt.
-2. Pawns kunnen niet promoveren.
+1. Pawns kunnen niet promoveren.
 
 
 EVALUATION CRITERIA
@@ -51,13 +50,10 @@ King castle made +3 (Koning heeft gecasteld) - done
 King distance from beginrow -1 per row (Koning krijgt minpunten per rij dat hij weg is van de beginrij) - done
 
 """
-
-# ChessPiece en Square zijn grotendeels gemaakt door:
-# https://stackoverflow.com/questions/50232639/drag-and-drop-qlabels-with-pyqt5
+# Run dit op het spel te spelen.
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 # Bijna alles in UI_MAINWINDOW is gemaakt met de tool "Qt Designer"
 # Ik heb alleen de klassen verandert van de schaakstukken en variabelen toegevoegd aan het einde.

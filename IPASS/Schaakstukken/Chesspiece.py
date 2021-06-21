@@ -5,8 +5,12 @@ from PyQt5.QtCore import QMimeData, Qt
 import sys
 
 
+# ChessPiece en Square zijn grotendeels gemaakt door:
+# https://stackoverflow.com/questions/50232639/drag-and-drop-qlabels-with-pyqt5
+
+
 class ChessPiece(QLabel):
-    # Class voor alle schaakstukken
+    # Parent class voor alle schaakstukken
     def __init__(self, *args, board):
         QLabel.__init__(self, *args)
         self.setAcceptDrops(True)
@@ -18,12 +22,6 @@ class ChessPiece(QLabel):
 
     def dropEvent(self, event):
         # Doe dit als een chesspiece op een chesspiece valt.
-        if self.board.blackPieces[-1].checkForCheckmate() is True:
-            print("Game over! Black lost!")
-            sys.exit()
-        elif self.board.whitePieces[-1].checkForCheckmate() is True:
-            print("Game over! White lost!")
-            sys.exit()
 
         if (self.board.turnCount % 2 == 0) and ("white" in self.board.clickedChessPiece.objectName()):
 
@@ -91,7 +89,6 @@ class ChessPiece(QLabel):
                     self.board.turnCount += 1
                     self.board.evaluationBar.evaluateBoard()
 
-                    # Check hier voor schaakmat
                     if self.board.whitePieces[-1].checkForCheckmate() is True:
                         print("Game over! White lost!")
                         sys.exit()
@@ -110,8 +107,7 @@ class ChessPiece(QLabel):
             self.drag_start_position = event.pos()
 
     def mouseMoveEvent(self, event):
-        # Dit gebeurt er als de muis beweegt.
-        # Heel eerlijk gezegd begrijp ik niet zo goed wat hier gebeurt.
+        # Dit gebeurt er als de muis beweegt en hij heeft geklikt op een chesspiece.
 
         if not (event.buttons() & Qt.LeftButton):
             return
@@ -125,7 +121,6 @@ class ChessPiece(QLabel):
 
         self.board.clickedChessPiece = self
 
-        # Dit deel begrijp ik niet zo goed.
         drag.setMimeData(mimedata)
         pixmap = QPixmap(self.size())
         painter = QPainter(pixmap)

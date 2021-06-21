@@ -5,6 +5,7 @@ import string
 class BlackPawn(ChessPiece):
     # Een black pawn kan naar beneden gaan en valt de twee squares aan die diagonaal onder de pawn staan.
     def getLegalMoves(self):
+        # Return een lijst met squares waar de pawn naar toe kan gaan en kunnen aanvallen.
         possibleAttackSquares = []
 
         # Loop door alle squares boven de pawn.
@@ -12,12 +13,13 @@ class BlackPawn(ChessPiece):
             # Als er niks voor hem staat kan de pawn vooruit
             if square.containsPiece() == None:
                 possibleAttackSquares.append(square)
+            # Als er iets voor hem staat, dan mag de pawn er niet naartoe.
             else:
                 break
 
         # Loop door de twee squares die diagonaal van de pawn zijn.
         for square in self.getAttackSquaresDiagonally():
-            # Als er iets diagonaal van de pawn staat, dan kan de pawn hem aanvallen
+            # Als er iets diagonaal van de pawn staat en het is van het andere team, dan kan de pawn hem aanvallen
             if square.containsPiece() != None and "white" in square.containsPiece().objectName():
                 possibleAttackSquares.append(square)
 
@@ -47,7 +49,7 @@ class BlackPawn(ChessPiece):
         column = currentSquare[-2: -1]
         possibleAttackSquares = []
 
-        # Als ze op de eerste rij zitten, kunnen ze 2 stappen vooruit
+        # Als de pawn nog niet heeft bewogen, kunnen we 2 stappen vooruit.
         if self.hasMoved == False:
             for square in self.board.allSquares:
                 if ((column == square.objectName()[-2] and int(row) - 1 == int(square.objectName()[-1])) or
@@ -61,7 +63,7 @@ class BlackPawn(ChessPiece):
         return possibleAttackSquares
 
     def checkIsolatedPawns(self):
-        # Returnt een boolean dat bepaalt of de pawn geisoleerd is of niet.
+        # Return een boolean dat bepaalt of de pawn geisoleerd is of niet.
 
         # Maak een lijst met huidige pawns
         currentPawns = []
@@ -69,7 +71,7 @@ class BlackPawn(ChessPiece):
             if "pawn" in piece.objectName():
                 currentPawns.append(piece)
 
-        # Zet de huidige naam van de column van de pawn als currentColumn
+        # Zet de huidige column van de pawn als currentColumn
         currentColumn = self.getPosition().objectName()[-2]
 
         # Zoek door alle pawns heen. Als ze naast de pawn zitten, dan is hij niet geisoleerd.

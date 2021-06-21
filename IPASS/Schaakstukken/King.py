@@ -189,12 +189,29 @@ class King(ChessPiece):
                     piecePreviousLocation = piece.pos()
                     # Kijk wat er gebeurt voor elke legal move.
                     for square in piece.getLegalMoves():
+                        squareContainsPiece = False
+
+                        # Check hier of er iets staat op die square.
+                        if square.containsPiece() != None:
+
+                            # Als er iets op staat, dan halen we hem weg
+                            containedPiece = square.containsPiece()
+                            squareContainsPiece = True
+                            self.board.currentBlackPieces.remove(containedPiece)
+                            containedPiece.move(-100, -100)
+
                         piece.move(square.pos())
                         # Als de koning nog steeds wordt aangevallen, breng dan dat stuk terug
                         if len(self.underAttack()) != 0:
+                            if squareContainsPiece == True:
+                                containedPiece.move(square.pos())
+                                self.board.currentBlackPieces.append(containedPiece)
                             piece.move(piecePreviousLocation)
                         # Als de koning niet meer wordt aangevallen dan is er geen sprake van schaakmat.
                         else:
+                            if squareContainsPiece == True:
+                                containedPiece.move(square.pos())
+                                self.board.currentBlackPieces.append(containedPiece)
                             piece.move(piecePreviousLocation)
                             return False
 
@@ -203,10 +220,25 @@ class King(ChessPiece):
                 for piece in self.board.currentBlackPieces:
                     piecePreviousLocation = piece.pos()
                     for square in piece.getLegalMoves():
+                        squareContainsPiece = False
+
+                        if square.containsPiece() != None:
+                            # Als er iets op staat, dan halen we hem weg
+                            containedPiece = square.containsPiece()
+                            squareContainsPiece = True
+                            self.board.currentWhitePieces.remove(containedPiece)
+                            containedPiece.move(-100, -100)
+
                         piece.move(square.pos())
                         if len(self.underAttack()) != 0:
+                            if squareContainsPiece == True:
+                                containedPiece.move(square.pos())
+                                self.board.currentWhitePieces.append(containedPiece)
                             piece.move(piecePreviousLocation)
                         else:
+                            if squareContainsPiece == True:
+                                containedPiece.move(square.pos())
+                                self.board.currentWhitePieces.append(containedPiece)
                             piece.move(piecePreviousLocation)
                             return False
             # Als ze door de loops heen zijn gegaan en ze konden geen legal moves vinden, dan is het schaakmat.
