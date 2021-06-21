@@ -12,6 +12,7 @@ class King(ChessPiece):
         self.castleRights = True
         self.hasCastled = False
         self.board = board
+        self.originalPosition = self.pos()
 
     # De koning is het meest belangrijke stuk. De koning kan 1 square om zich heen bewegen en heeft toegang tot
     # de move "castling". Hier zitten wel restricties op.
@@ -30,26 +31,29 @@ class King(ChessPiece):
                 if self.objectName()[0:5] == "white":
                     # Check hier of zwarte stukken naar die square kunnen gaan.
                     for piece in self.board.currentBlackPieces[:-1]:
-                        # De legal moves van pawn zijn plekken waar de pawn naartoe kunnen, maar niet per se kunnen
-                        # aanvallen. Hiervoor moet ik helaas dus een if voor gebruiken.
-                        if "pawn" in piece.objectName():
-                            if square in piece.getAttackSquaresDiagonally():
+                        # Check niet de koning, want anders krijg je infinite loop.
+                        if "king" not in piece.objectName():
+                            # De legal moves van pawn zijn plekken waar de pawn naartoe kunnen, maar niet per se kunnen
+                            # aanvallen. Hiervoor moet ik helaas dus een if voor gebruiken.
+                            if "pawn" in piece.objectName():
+                                if square in piece.getAttackSquaresDiagonally():
+                                    attackingPieces.append(piece)
+                                    break
+                            elif square in piece.getLegalMoves():
                                 attackingPieces.append(piece)
                                 break
-                        elif square in piece.getLegalMoves():
-                            attackingPieces.append(piece)
-                            break
 
                 # Doe hetzelfde, maar dan checken we of de witte stukken het kunnen aanvallen.
                 elif self.objectName()[0:5] == "black":
                     for piece in self.board.currentWhitePieces[:-1]:
-                        if "pawn" in piece.objectName():
-                            if square in piece.getAttackSquaresDiagonally():
+                        if "king" not in piece.objectName():
+                            if "pawn" in piece.objectName():
+                                if square in piece.getAttackSquaresDiagonally():
+                                    attackingPieces.append(piece)
+                                    break
+                            elif square in piece.getLegalMoves():
                                 attackingPieces.append(piece)
                                 break
-                        elif square in piece.getLegalMoves():
-                            attackingPieces.append(piece)
-                            break
                 # Als er geen attackingpieces zijn, dan betekent het dat niemand het aanvalt.
                 # De koning kan er dus dan naartoe.
                 if len(attackingPieces) == 0:

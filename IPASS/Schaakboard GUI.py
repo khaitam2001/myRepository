@@ -10,6 +10,7 @@ from myRepository.IPASS.Schaakstukken.Square import Square
 from myRepository.IPASS.Schaakstukken.WhitePawn import WhitePawn
 from myRepository.IPASS.Board import Board
 from myRepository.IPASS.EvaluationBar import Evaluate
+from myRepository.IPASS.ResetButton import ResetButton
 
 
 """ 
@@ -65,6 +66,10 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("")
         self.centralwidget.setObjectName("centralwidget")
+        self.resetButton = ResetButton(self.centralwidget, board=board)
+        self.resetButton.setText("Reset")
+        self.resetButton.move(450, 800)
+        self.resetButton.clicked.connect(self.resetButton.resetBoard)
         self.evaluationbar = Evaluate(self.centralwidget, board=board)
         self.evaluationbar.setGeometry(QtCore.QRect(350, 800, 100, 20))
         self.evaluationbar.setText("Evaluation: ")
@@ -647,6 +652,7 @@ class Ui_MainWindow(object):
                      self.white_queen, self.white_king])
 
         board.setEvalBar(self.evaluationbar)
+        self.resetButton.setOriginalPosition()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

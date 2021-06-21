@@ -39,7 +39,6 @@ class Square(QLabel):
                 # Check hier voor checkmate
                 if self.board.blackPieces[-1].checkForCheckmate() is True:
                     print("Game over! Black lost!")
-                    sys.exit()
 
             # Doe dit als castle short en witte koning
             elif (("king" in self.board.clickedChessPiece.objectName()) and (self.board.allSquares[48] == self)
@@ -53,7 +52,6 @@ class Square(QLabel):
                 self.board.evaluationBar.evaluateBoard()
                 if self.board.blackPieces[-1].checkForCheckmate() is True:
                     print("Game over! Black lost!")
-                    sys.exit()
 
             # Doe dit als de moves geen castle moves waren.
             # Check hier ook of de square in legalMoves zit.
@@ -83,7 +81,6 @@ class Square(QLabel):
                     # Check hier of het schaakmat is.
                     if self.board.blackPieces[-1].checkForCheckmate() is True:
                         print("Game over! Black lost!")
-                        sys.exit()
                 event.acceptProposedAction()
             else:
                 print(self.board.clickedChessPiece.objectName() + " can't go to " + self.objectName())
@@ -105,7 +102,6 @@ class Square(QLabel):
                 # Check hier voor checkmate
                 if self.board.whitePieces[-1].checkForCheckmate() is True:
                     print("Game over! White lost!")
-                    sys.exit()
 
             # Doe dit als castle short en zwarte koning
             elif (("king" in self.board.clickedChessPiece.objectName()) and (self.board.allSquares[55] == self) and (
@@ -119,7 +115,6 @@ class Square(QLabel):
                 self.board.evaluationBar.evaluateBoard()
                 if self.board.whitePieces[-1].checkForCheckmate() is True:
                     print("Game over! White lost!")
-                    sys.exit()
 
             elif (self in self.board.clickedChessPiece.getLegalMoves()):
                 clickedPiecePreviousPosition = self.board.clickedChessPiece.pos()
@@ -137,7 +132,6 @@ class Square(QLabel):
                     self.board.evaluationBar.evaluateBoard()
                     if self.board.whitePieces[-1].checkForCheckmate() is True:
                         print("Game over! White lost!")
-                        sys.exit()
 
             else:
                 print(self.board.clickedChessPiece.objectName() + " can't go to " + self.objectName())

@@ -16,6 +16,10 @@ class ChessPiece(QLabel):
         self.setAcceptDrops(True)
         self.hasMoved = False
         self.board = board
+        self.originalPosition = self.pos()
+
+    def getOriginalPosition(self):
+        return self.originalPosition
 
     def dragEnterEvent(self, event):
         event.acceptProposedAction()
@@ -58,7 +62,6 @@ class ChessPiece(QLabel):
 
                     if self.board.blackPieces[-1].checkForCheckmate() is True:
                         print("Game over! Black lost!")
-                        sys.exit()
                     # Als de koning heeft bewogen, dan heeft hij de castleRights verloren.
                     if "king" in self.board.clickedChessPiece.objectName():
                         self.castleRights = False
@@ -91,7 +94,6 @@ class ChessPiece(QLabel):
 
                     if self.board.whitePieces[-1].checkForCheckmate() is True:
                         print("Game over! White lost!")
-                        sys.exit()
 
                     if "king" in self.board.clickedChessPiece.objectName():
                         self.castleRights = False
