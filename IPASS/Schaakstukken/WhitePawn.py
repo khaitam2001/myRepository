@@ -60,7 +60,7 @@ class WhitePawn(ChessPiece):
                     possibleAttackSquares.append(square)
         return possibleAttackSquares
 
-    def checkIsolatedPawns(self):
+    def checkIsolated(self):
         # Returnt een boolean dat bepaalt of de pawn geisoleerd is of niet.
         # Geisoleerde pawns zijn pawns die geen pawns naast hun hebben.
 
@@ -105,19 +105,20 @@ class WhitePawn(ChessPiece):
     def getValue(self):
         whitePawnWeight = 10
 
-        # Als de pawn tussen D4 en E5 zit, dan krijgt hij extra punten
-        if ("D" <= self.getPosition().objectName()[-2] <= "E") and (4 <= int(self.getPosition().objectName()[-1]) <= 5):
-            pawnPositionWeight = 2
         # Als de pawn bijna promoveert krijgt hij ook extra punten.
-        elif "7" == self.getPosition().objectName()[-1]:
+        if "7" == self.getPosition().objectName()[-1]:
             pawnPositionWeight = 5
+
+        # Als de pawn tussen D4 en E5 zit, dan krijgt hij extra punten
+        elif ("D" <= self.getPosition().objectName()[-2] <= "E") and (4 <= int(self.getPosition().objectName()[-1]) <= 5):
+            pawnPositionWeight = 2
 
         # Op elke andere plek krijgen ze geen extra punten.
         else:
             pawnPositionWeight = 0
 
         # Als de pawn geisoleerd is dan krijgt hij -1 punt.
-        if self.checkIsolatedPawns() is True:
+        if self.checkIsolated() is True:
             pawnPositionWeight -= 1
 
         # Als de pawn doubled is dan krijgt hij -1 punt.

@@ -144,10 +144,10 @@ class Rook(ChessPiece):
 
         # Als de rook op de 7de rij staat of de 2de rij, dan krijgt hij extra punten
         if "white" in self.objectName():
-            if self.getPosition().objectName()[-2] == "7":
+            if self.getPosition().objectName()[-1] == "7":
                 rookPositionWeight += 4
         elif "black" in self.objectName():
-            if self.getPosition().objectName()[-2] == "2":
+            if self.getPosition().objectName()[-1] == "2":
                 rookPositionWeight += 4
 
         # Als de rook op een open file staat, dan krijgt hij +3 punten

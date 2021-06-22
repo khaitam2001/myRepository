@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QLabel
 
 
 class Evaluate(QLabel):
+    # Class voor de evaluatie bar
     def __init__(self, *args, board):
         QLabel.__init__(self, *args)
         self.board = board
@@ -20,6 +21,6 @@ class Evaluate(QLabel):
             totalValue += piece.getValue()
         return totalValue
 
-    # Verander de text van de evaluation label in de huidige evaluation.
+    # Verander de text van de evaluation label.
     def evaluateBoard(self):
         self.setText("Evaluation: " + str(round((self.whitePieceValue() - self.blackPieceValue()) * 0.1, 2)))

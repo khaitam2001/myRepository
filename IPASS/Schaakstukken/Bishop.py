@@ -172,12 +172,12 @@ class Bishop(ChessPiece):
         # Dit is de diagonaal van links beneden naar rechts boven.
         for i in range(8):
             # Als de positie van de bishop op de long diagonal zit, return True
-            if self.pos() == self.board.allSquares[0 + i * 9]:
+            if self.pos() == self.board.allSquares[0 + i * 9].pos():
                 return True
 
         # Dit is de diagonaal van links boven naar rechts beneden.
         for i in range(8):
-            if self.pos() == self.board.allSquares[7 + i * 7]:
+            if self.pos() == self.board.allSquares[7 + i * 7].pos():
                 return True
 
         # Als ze er niet op zitten, dan return false.

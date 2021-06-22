@@ -6,7 +6,7 @@ class Queen(Rook, Bishop):
     def getLegalMoves(self):
         possibleAttackSquares = []
 
-        # De queen kan bewegen net als een rook en een biship. Daarom gebruiken we hun methodes.
+        # De queen kan bewegen net als een rook en een bishop. Daarom gebruiken we hun methodes.
 
         for square in Rook.getLegalMoves(self):
             possibleAttackSquares.append(square)

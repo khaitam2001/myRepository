@@ -101,7 +101,7 @@ class King(ChessPiece):
         # Return een square, als castleLong een legal move is.
 
         # De koning mag niet hebben bewogen voor de castle
-        if self.hasMoved is False:
+        if self.castleRights is True:
             # Condities voor een long castle:
             # 1. A1 is NIET leeg, 2. A1.hasMoved is False, B1 is leeg, 3. C1 is leeg, 4. D1 is leeg, en koning is wit.
             if self.board.allSquares[0].containsPiece() is not None:
@@ -182,7 +182,7 @@ class King(ChessPiece):
     # Check of er een checkmate is of niet.
     def checkForCheckmate(self):
         # Brute force de check voor checkmate door alle moves te bekijken. Als alle moves zijn gedaan en geen een van
-        # stopt checkmate, dan is er checkmate.
+        # die moves stopt checkmate, dan is er checkmate.
 
         # Check of de king uberhaupt wordt aangevallen.
         if len(self.underAttack()) != 0:
