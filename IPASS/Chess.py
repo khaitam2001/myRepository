@@ -18,7 +18,6 @@ KNOWN BUGS OR MISSING FEATURES
 
 1. Pawns kunnen niet promoveren.
 
-
 EVALUATION CRITERIA
 
 Pawn Weight +10 (Elke pawn is 10 punten waard) - done
