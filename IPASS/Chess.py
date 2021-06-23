@@ -1,5 +1,4 @@
 import sys
-import unittest
 
 from myRepository.IPASS.Schaakstukken.Bishop import Bishop
 from myRepository.IPASS.Schaakstukken.BlackPawn import BlackPawn
