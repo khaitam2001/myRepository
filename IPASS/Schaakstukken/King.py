@@ -1,7 +1,6 @@
 from myRepository.IPASS.Schaakstukken.Chesspiece import ChessPiece
 from PyQt5.QtWidgets import QLabel
 import string
-import time
 
 
 class King(ChessPiece):
